@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchFragment">
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.zrq.videodemo.ui.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.zrq.videodemo.ui.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" />
+    <fragment
+        android:id="@+id/contentFragment"
+        android:name="com.zrq.videodemo.ui.ContentFragment"
+        android:label="fragment_content"
+        tools:layout="@layout/fragment_content" />
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="com.zrq.videodemo.ui.PlayerFragment"
+        android:label="fragment_player"
+        tools:layout="@layout/fragment_player" />
+</navigation>
