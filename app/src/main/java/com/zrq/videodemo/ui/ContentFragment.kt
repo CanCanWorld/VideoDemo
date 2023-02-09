@@ -26,13 +26,13 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
     private val list = mutableListOf<Chapter>()
     private lateinit var mAdapter: ChapterAdapter
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
     override fun initData() {
 
         mAdapter = ChapterAdapter(requireContext(), list) {
             mainModel.content?.pos = it
             Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                .navigate(R.id.playerFragment)
+                .navigate(R.id.action_global_playerFragment)
         }
         mBinding.apply {
             recyclerView.adapter = mAdapter
@@ -45,12 +45,18 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
                 mainModel.content = content
                 Handler(Looper.getMainLooper()).post {
                     mBinding.apply {
-                        Glide.with(this@ContentFragment)
-                            .load(content.data.cover)
-                            .into(ivCover)
+                        if (isAdded) {
+                            Glide.with(requireActivity())
+                                .load(content.data.cover)
+                                .into(ivCover)
+                        }
                         tvTitle.text = content.data.title
-                        tvDesc.text = content.data.descs.trim()
-                        tvActor.text = content.data.actor
+                        mainModel.setSearchHintText(content.data.title+"详情页")
+                        tvDesc.text = "简述：" + content.data.descs.trim() +
+                                "\n导演：" + content.data.director +
+                                "\n演员：" + content.data.actor +
+                                "\n地区：" + content.data.region +
+                                "\n发布时间：" + content.data.releaseTime
                         list.clear()
                         list.addAll(content.data.chapterList)
                         mAdapter.notifyDataSetChanged()
@@ -63,6 +69,6 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
     override fun initEvent() {
     }
 
-    override fun setNowPage(): String  = PAGE_CONTENT
+    override fun setNowPage(): String = PAGE_CONTENT
 
 }

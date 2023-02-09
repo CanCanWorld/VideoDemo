@@ -21,6 +21,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     override fun initData() {
+        mainModel.setSearchHintText("首页")
     }
 
     override fun initEvent() {
@@ -28,9 +29,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
             tvSearch.setOnClickListener {
                 val keyword = etSearch.text.toString()
-                mainModel.keyword = keyword
+                mainModel.keywords.push(keyword)
                 Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                    .navigate(R.id.resultFragment)
+                    .navigate(R.id.action_global_resultFragment)
             }
 
             etSearch.setOnEditorActionListener { _, actionId, _ ->

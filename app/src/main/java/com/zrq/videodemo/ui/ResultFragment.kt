@@ -1,8 +1,10 @@
 package com.zrq.videodemo.ui
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -28,16 +30,20 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
     private lateinit var mAdapter: ResultAdapter
     private var page = 1
     private var count = 0
+    private var keyword = ""
 
     override fun initData() {
         mAdapter = ResultAdapter(requireContext(), list) {
             mainModel.videoId = list[it].videoId
             Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                .navigate(R.id.contentFragment)
+                .navigate(R.id.action_global_contentFragment)
         }
         mBinding.apply {
             recyclerView.adapter = mAdapter
         }
+        keyword = mainModel.keywords.first
+        mainModel.setSearchHintText(keyword+"搜索页")
+
         loadVideo()
     }
 
@@ -64,7 +70,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun loadVideo() {
-        val url = "$BASE_URL$SEARCH/${mainModel.keyword}/$page/$PAGE_COUNT"
+        val url = "$BASE_URL$SEARCH/$keyword/$page/$PAGE_COUNT"
         HttpUtil.httpGet(url) { success, msg ->
             if (success) {
                 Handler(Looper.getMainLooper()).post {
@@ -87,5 +93,30 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
     }
 
     override fun setNowPage(): String = PAGE_RESULT
+
+    companion object {
+        private const val TAG = "ResultFragment"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: ")
+        mainModel.keywords.pop()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: ")
+    }
 
 }

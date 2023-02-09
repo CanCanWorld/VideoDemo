@@ -33,6 +33,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:background="@drawable/shape_et_search_bottom"
+            android:cursorVisible="false"
             android:drawableStart="@drawable/ic_sousuo"
             android:drawablePadding="10dp"
             android:drawableTint="@color/grey"

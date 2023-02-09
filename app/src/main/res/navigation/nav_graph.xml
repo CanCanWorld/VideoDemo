@@ -25,4 +25,24 @@
         android:name="com.zrq.videodemo.ui.PlayerFragment"
         android:label="fragment_player"
         tools:layout="@layout/fragment_player" />
+    <action
+        android:id="@+id/action_global_contentFragment"
+        app:destination="@id/contentFragment"
+        app:enterAnim="@anim/anim_fade_in"
+        app:popExitAnim="@anim/anim_fade_out" />
+    <action
+        android:id="@+id/action_global_playerFragment"
+        app:destination="@id/playerFragment"
+        app:enterAnim="@anim/anim_fade_in"
+        app:popExitAnim="@anim/anim_fade_out" />
+    <action
+        android:id="@+id/action_global_resultFragment"
+        app:destination="@id/resultFragment"
+        app:enterAnim="@anim/anim_fade_in"
+        app:popExitAnim="@anim/anim_fade_out" />
+    <action
+        android:id="@+id/action_global_searchFragment"
+        app:destination="@id/searchFragment"
+        app:enterAnim="@anim/anim_fade_in"
+        app:popExitAnim="@anim/anim_fade_out" />
 </navigation>

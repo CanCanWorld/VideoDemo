@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
-import com.zrq.videodemo.R
-import com.zrq.videodemo.adapter.ChapterAdapter
+import com.zrq.videodemo.adapter.PlayerChapterAdapter
 import com.zrq.videodemo.bean.Chapter
 import com.zrq.videodemo.databinding.FragmentPlayerBinding
 import com.zrq.videodemo.utils.Constants.PAGE_PLAYER
@@ -18,14 +16,13 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         return FragmentPlayerBinding.inflate(inflater, container, false)
     }
 
-    private lateinit var mAdapter: ChapterAdapter
+    private lateinit var mAdapter: PlayerChapterAdapter
     private val list = mutableListOf<Chapter>()
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
     override fun initData() {
 
-        mAdapter = ChapterAdapter(requireContext(), list) {
-            Log.d("TAG", "play: $it")
+        mAdapter = PlayerChapterAdapter(requireContext(), list) {
             changeChapter(it)
         }
         mBinding.apply {
@@ -34,12 +31,19 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
         mainModel.content?.let {
             mBinding.apply {
-                Glide.with(this@PlayerFragment)
-                    .load(it.data.cover)
-                    .into(ivCover)
+                if (isAdded) {
+                    Glide.with(requireActivity())
+                        .load(it.data.cover)
+                        .into(ivCover)
+                }
                 tvTitle.text = it.data.title
-                tvDesc.text = it.data.descs
-                tvActor.text = it.data.actor
+                tvDesc.text = "简述：" + it.data.descs.trim() +
+                        "\n导演：" + it.data.director +
+                        "\n演员：" + it.data.actor +
+                        "\n地区：" + it.data.region +
+                        "\n发布时间：" + it.data.releaseTime
+                mainModel.setSearchHintText(it.data.title + "播放页")
+                recyclerView.scrollToPosition(it.pos)
 
                 list.clear()
                 list.addAll(it.data.chapterList)
