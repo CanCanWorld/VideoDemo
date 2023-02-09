@@ -1,6 +1,7 @@
 package com.zrq.videodemo.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
@@ -9,6 +10,7 @@ import com.zrq.videodemo.R
 import com.zrq.videodemo.adapter.ChapterAdapter
 import com.zrq.videodemo.bean.Chapter
 import com.zrq.videodemo.databinding.FragmentPlayerBinding
+import com.zrq.videodemo.utils.Constants.PAGE_PLAYER
 import xyz.doikki.videocontroller.StandardVideoController
 
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
@@ -23,12 +25,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     override fun initData() {
 
         mAdapter = ChapterAdapter(requireContext(), list) {
-
-            mAdapter = ChapterAdapter(requireContext(), list) {
-                mainModel.content?.pos = it
-                Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                    .navigate(R.id.playerFragment)
-            }
+            Log.d("TAG", "play: $it")
+            changeChapter(it)
         }
         mBinding.apply {
             recyclerView.adapter = mAdapter
@@ -55,6 +53,14 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         }
     }
 
+    private fun changeChapter(pos: Int) {
+        if (mainModel.content?.pos == pos) return
+        mainModel.content?.pos = pos
+        mBinding.videoView.release()
+        mBinding.videoView.setUrl(list[pos].chapterPath)
+        mBinding.videoView.start()
+    }
+
     override fun initEvent() {
 
         mainModel.onBackPress = {
@@ -77,4 +83,6 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         super.onDestroy()
         mBinding.videoView.release()
     }
+
+    override fun setNowPage(): String = PAGE_PLAYER
 }

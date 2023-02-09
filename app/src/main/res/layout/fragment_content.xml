@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -29,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
                 android:gravity="center"
-                android:padding="4dp"
+                android:paddingHorizontal="4dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -38,14 +39,12 @@
                 android:id="@+id/tvDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="5"
-                android:padding="4dp"
+                android:paddingHorizontal="4dp"
                 android:textColor="@color/grey"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/tvActor"
@@ -57,17 +56,17 @@
                 android:maxLines="2"
                 android:padding="4dp"
                 android:textColor="@color/grey"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
         tools:listitem="@layout/item_chapter" />
 
 </LinearLayout>

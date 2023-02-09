@@ -21,6 +21,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     ): View? {
         mainModel = ViewModelProvider(requireActivity())[MainModel::class.java]
         mBinding = providedViewBinding(inflater, container)
+        mainModel.nowPage = setNowPage()
         initData()
         initEvent()
         return mBinding.root
@@ -31,5 +32,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     abstract fun initData()
 
     abstract fun initEvent()
+
+    abstract fun setNowPage(): String
 
 }

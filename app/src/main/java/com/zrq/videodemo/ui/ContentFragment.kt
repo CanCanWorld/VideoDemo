@@ -15,6 +15,7 @@ import com.zrq.videodemo.bean.Content
 import com.zrq.videodemo.databinding.FragmentContentBinding
 import com.zrq.videodemo.utils.Constants.BASE_URL
 import com.zrq.videodemo.utils.Constants.CONTENT
+import com.zrq.videodemo.utils.Constants.PAGE_CONTENT
 import com.zrq.videodemo.utils.HttpUtil
 
 class ContentFragment : BaseFragment<FragmentContentBinding>() {
@@ -48,7 +49,7 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
                             .load(content.data.cover)
                             .into(ivCover)
                         tvTitle.text = content.data.title
-                        tvDesc.text = content.data.descs
+                        tvDesc.text = content.data.descs.trim()
                         tvActor.text = content.data.actor
                         list.clear()
                         list.addAll(content.data.chapterList)
@@ -61,5 +62,7 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
 
     override fun initEvent() {
     }
+
+    override fun setNowPage(): String  = PAGE_CONTENT
 
 }
