@@ -22,14 +22,10 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         mainModel = ViewModelProvider(requireActivity())[MainModel::class.java]
         mBinding = providedViewBinding(inflater, container)
         mainModel.nowPage = setNowPage()
-        return mBinding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
         mainModel.setSearchText("")
         initData()
         initEvent()
+        return mBinding.root
     }
 
     abstract fun providedViewBinding(inflater: LayoutInflater, container: ViewGroup?): T

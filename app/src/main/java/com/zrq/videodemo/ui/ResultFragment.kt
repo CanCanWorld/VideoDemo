@@ -41,6 +41,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
         mBinding.apply {
             recyclerView.adapter = mAdapter
         }
+        Log.d(TAG, "initData: ${mainModel.keywords}")
         keyword = mainModel.keywords.first
         mainModel.setSearchHintText(keyword+"搜索页")
 
@@ -48,6 +49,10 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
     }
 
     override fun initEvent() {
+        mainModel.onBackPress = {
+            mainModel.keywords.pop()
+            true
+        }
         mBinding.refreshLayout.setOnRefreshListener {
             page = 1
             loadVideo()
@@ -111,7 +116,6 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy: ")
-        mainModel.keywords.pop()
     }
 
     override fun onPause() {
