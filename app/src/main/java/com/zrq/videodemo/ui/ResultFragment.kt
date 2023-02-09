@@ -3,6 +3,8 @@ package com.zrq.videodemo.ui
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import com.zrq.videodemo.R
 import com.zrq.videodemo.adapter.ResultAdapter
 import com.zrq.videodemo.bean.DataItem
 import com.zrq.videodemo.databinding.FragmentResultBinding
@@ -16,7 +18,11 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
     private lateinit var mAdapter: ResultAdapter
 
     override fun initData() {
-        mAdapter = ResultAdapter(requireContext(), list)
+        mAdapter = ResultAdapter(requireContext(), list) {
+            mainModel.videoId = list[it].videoId
+            Navigation.findNavController(requireActivity(), R.id.fragment_container)
+                .navigate(R.id.contentFragment)
+        }
         mBinding.apply {
             recyclerView.adapter = mAdapter
         }
