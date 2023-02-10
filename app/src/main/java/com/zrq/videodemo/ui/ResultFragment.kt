@@ -43,7 +43,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
         }
         Log.d(TAG, "initData: ${mainModel.keywords}")
         keyword = mainModel.keywords.first
-        mainModel.setSearchHintText(keyword+"搜索页")
+        mainModel.setSearchHintText("搜索页：$keyword")
 
         loadVideo()
     }

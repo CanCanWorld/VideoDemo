@@ -51,7 +51,7 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
                                 .into(ivCover)
                         }
                         tvTitle.text = content.data.title
-                        mainModel.setSearchHintText(content.data.title+"详情页")
+                        mainModel.setSearchHintText("详情：" + content.data.title)
                         tvDesc.text = "简述：" + content.data.descs.trim() +
                                 "\n导演：" + content.data.director +
                                 "\n演员：" + content.data.actor +

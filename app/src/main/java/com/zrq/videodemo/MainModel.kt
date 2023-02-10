@@ -2,11 +2,11 @@ package com.zrq.videodemo
 
 import androidx.lifecycle.ViewModel
 import com.zrq.videodemo.bean.Content
-import com.zrq.videodemo.bean.Result
+import com.zrq.videodemo.db.MyDatabase
 import java.util.*
-import kotlin.collections.HashMap
 
 class MainModel : ViewModel() {
+    var db: MyDatabase? = null
     var keywords = LinkedList<String>()
     var videoId = ""
     var content: Content? = null

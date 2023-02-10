@@ -3,12 +3,17 @@ package com.zrq.videodemo
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.tencent.mmkv.MMKV
 import com.zrq.videodemo.databinding.ActivityMainBinding
+import com.zrq.videodemo.db.MyDatabase
 import com.zrq.videodemo.utils.Constants.PAGE_SEARCH
 import com.zrq.videodemo.utils.StatusBarUtil
 import xyz.doikki.videocontroller.StandardVideoController
@@ -22,6 +27,26 @@ class MainActivity : AppCompatActivity() {
         StatusBarUtil.transparencyBar(this)
         mainModel = ViewModelProvider(this)[MainModel::class.java]
         initEvent()
+        initDB()
+    }
+
+    private fun initDB() {
+        mainModel.db = Room.databaseBuilder(applicationContext, MyDatabase::class.java, "VideoDB")
+            //允许在主线程上操作数据库
+            .allowMainThreadQueries()
+            //数据库创建和打开事件会回调到这里，可以再次操作数据库
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+                    Log.d(TAG, "onCreate: ")
+                }
+
+                override fun onOpen(db: SupportSQLiteDatabase) {
+                    super.onOpen(db)
+                    Log.d(TAG, "onOpen: ")
+                }
+            })
+            .build()
     }
 
     private fun initEvent() {
@@ -59,5 +84,9 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (mainModel.onBackPress())
             super.onBackPressed()
+    }
+
+    private companion object {
+        private const val TAG = "MainActivity"
     }
 }
