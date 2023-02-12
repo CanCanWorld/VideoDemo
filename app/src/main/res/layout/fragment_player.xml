@@ -46,9 +46,10 @@
             android:background="@drawable/shape_tv_circle"
             android:elevation="4dp"
             android:padding="6dp"
+            android:letterSpacing="0.2"
             android:text="@string/record"
-            android:textSize="16sp"
-            android:textStyle="italic" />
+            android:textSize="15sp"
+            android:textStyle="italic|bold" />
 
         <View
             android:layout_width="match_parent"
@@ -61,7 +62,10 @@
             android:id="@+id/rvMsg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:padding="10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_record" />

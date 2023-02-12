@@ -19,13 +19,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
-
     <LinearLayout
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="10dp">
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:src="@drawable/ic_fanhui"
+            app:tint="@color/grey" />
 
         <EditText
             android:id="@+id/etSearch"
@@ -33,10 +41,11 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:background="@drawable/shape_et_search_bottom"
-            android:cursorVisible="false"
             android:drawableStart="@drawable/ic_sousuo"
             android:drawablePadding="10dp"
             android:drawableTint="@color/grey"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/home"
             android:imeOptions="actionSearch"
             android:inputType="text"
@@ -44,6 +53,7 @@
             android:paddingHorizontal="10dp"
             android:textColorHint="@color/grey"
             android:textSize="14sp" />
+
 
         <ImageView
             android:id="@+id/ivHome"

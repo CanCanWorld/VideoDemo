@@ -12,6 +12,20 @@
 #   public *;
 #}
 
+-keep class com.zrq.videodemo.bean.*{*;}
+-keep class com.zrq.videodemo.db.bean.*{*;}
+-keep class xyz.doikki.videoplayer.** { *; }
+-dontwarn xyz.doikki.videoplayer.**
+
+# IjkPlayer
+-keep class tv.danmaku.ijk.** { *; }
+-dontwarn tv.danmaku.ijk.**
+
+# ExoPlayer
+-keep class com.google.android.exoplayer2.** { *; }
+-dontwarn com.google.android.exoplayer2.**
+
+
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable

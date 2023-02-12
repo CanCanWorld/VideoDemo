@@ -12,6 +12,9 @@ interface MessageDao {
     @Query("Select * from message")
     fun queryAll(): MutableList<Message>
 
+    @Query("Select * from message where title = :title")
+    fun queryAllByTitle(title: String): MutableList<Message>
+
     @Query("Select * from message where title like :title limit 1")
     fun findByTitle(title: String): Message
 

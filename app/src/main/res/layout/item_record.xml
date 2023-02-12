@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="@drawable/pressed_background_white"
     android:orientation="vertical">
 
     <TextView
@@ -13,6 +14,6 @@
         android:textSize="14sp" />
     <View
         android:layout_width="match_parent"
-        android:background="@color/_grey"
+        android:background="@color/__grey"
         android:layout_height="2dp"/>
 </LinearLayout>

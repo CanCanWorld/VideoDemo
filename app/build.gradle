@@ -11,15 +11,17 @@ android {
         applicationId "com.zrq.videodemo"
         minSdk 23
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -65,11 +67,16 @@ dependencies {
     // 可选，使用exoplayer进行解码
     implementation 'xyz.doikki.android.dkplayer:player-exo:3.3.7'
     // 可选，使用ijkplayer进行解码
-    implementation 'xyz.doikki.android.dkplayer:player-ijk:3.3.7'
+//    implementation 'xyz.doikki.android.dkplayer:player-ijk:3.3.7'
     // 可选，如需要缓存或者抖音预加载功能请引入此库
-    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.7'
+//    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.7'
 
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    implementation 'me.laoyuyu.aria:core:3.8.16'
+    kapt 'me.laoyuyu.aria:compiler:3.8.16'
+    implementation 'me.laoyuyu.aria:m3u8:3.8.16'
+
 }

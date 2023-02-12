@@ -55,16 +55,41 @@ object HttpUtil {
         val call = okHttpClient.newCall(request)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                callback(false, "flag: 2")
+                callback(false, "服务器挂了")
             }
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful && response.body != null) {
                     callback(true, response.body!!.string())
                 } else {
-                    callback(false, "flag: 1")
+                    callback(false, "服务器出问题了，请稍后刷新重试")
                 }
             }
         })
     }
+
+    fun httpGetOnUi(url: String, callback: (Boolean, String) -> Unit) {
+        Log.d(TAG, "load: $url")
+        val request = Request.Builder()
+            .url(url)
+            .get()
+            .build()
+        val call = okHttpClient.newCall(request)
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                callback(false, "服务器挂了")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful && response.body != null) {
+                    Handler(Looper.getMainLooper()).post {
+                        callback(true, response.body!!.string())
+                    }
+                } else {
+                    callback(false, "服务器出问题了，请稍后刷新重试")
+                }
+            }
+        })
+    }
+
 }

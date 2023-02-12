@@ -3,20 +3,26 @@ package com.zrq.videodemo.ui
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import com.zrq.videodemo.R
 import com.zrq.videodemo.adapter.ChapterAdapter
 import com.zrq.videodemo.bean.Chapter
 import com.zrq.videodemo.bean.Content
 import com.zrq.videodemo.databinding.FragmentContentBinding
+import com.zrq.videodemo.db.bean.Love
 import com.zrq.videodemo.utils.Constants.BASE_URL
 import com.zrq.videodemo.utils.Constants.CONTENT
 import com.zrq.videodemo.utils.Constants.PAGE_CONTENT
 import com.zrq.videodemo.utils.HttpUtil
+import com.zrq.videodemo.utils.OtherUtils
+import com.zrq.videodemo.view.DownloadBottomDialog
 
 class ContentFragment : BaseFragment<FragmentContentBinding>() {
     override fun providedViewBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentContentBinding {
@@ -25,10 +31,10 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
 
     private val list = mutableListOf<Chapter>()
     private lateinit var mAdapter: ChapterAdapter
+    private var isLove = false
+    private var downloadBottomDialog: DownloadBottomDialog? = null
 
-    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
     override fun initData() {
-
         mAdapter = ChapterAdapter(requireContext(), list) {
             mainModel.content?.pos = it
             Navigation.findNavController(requireActivity(), R.id.fragment_container)
@@ -38,6 +44,14 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
             recyclerView.adapter = mAdapter
         }
 
+        loadContent()
+        val queryAll = mainModel.db?.loveDao()?.queryAll()
+        Log.d(TAG, "queryAll: $queryAll")
+
+    }
+
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
+    private fun loadContent() {
         val url = "$BASE_URL$CONTENT/${mainModel.videoId}"
         HttpUtil.httpGet(url) { success, msg ->
             if (success) {
@@ -60,6 +74,19 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
                         list.clear()
                         list.addAll(content.data.chapterList)
                         mAdapter.notifyDataSetChanged()
+
+                        mainModel.db?.loveDao()?.let { dao ->
+                            val loves = dao.queryAllByTitle(content.data.title)
+                            if (loves.size == 0) {
+                                isLove = false
+                                ivLove.setImageResource(R.drawable.ic_zhuifanshu)
+                            } else {
+                                isLove = true
+                                ivLove.setImageResource(R.drawable.ic_yizhuifan)
+                            }
+                            ivLove.visibility = View.VISIBLE
+                            btnDownload.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
@@ -67,8 +94,43 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
     }
 
     override fun initEvent() {
+        mBinding.ivLove.setOnClickListener {
+            mainModel.db?.loveDao()?.let { dao ->
+                mainModel.content?.data?.let { data ->
+                    if (isLove) {
+                        val loves = dao.queryAllByTitle(data.title)
+                        loves.forEach {
+                            dao.delete(it)
+                        }
+                        mBinding.ivLove.setImageResource(R.drawable.ic_zhuifanshu)
+                    } else {
+                        dao.insertLike(Love(data.title, data.videoId, data.cover))
+                        mBinding.ivLove.setImageResource(R.drawable.ic_yizhuifan)
+                    }
+                    isLove = !isLove
+                }
+            }
+        }
+
+        mBinding.btnDownload.setOnClickListener {
+            if (downloadBottomDialog == null) {
+                mainModel.content?.let {
+                    downloadBottomDialog = DownloadBottomDialog(requireContext(), requireActivity(), mainModel, it)
+                }
+            }
+
+            downloadBottomDialog!!.behavior.apply {
+                state = BottomSheetBehavior.STATE_EXPANDED
+                peekHeight = OtherUtils.getWindowHeight(requireActivity())
+            }
+            downloadBottomDialog!!.show()
+        }
+
     }
 
     override fun setNowPage(): String = PAGE_CONTENT
 
+    private companion object {
+        const val TAG = "ContentFragment"
+    }
 }

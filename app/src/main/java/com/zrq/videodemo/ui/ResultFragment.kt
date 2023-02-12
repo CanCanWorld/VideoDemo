@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.zrq.videodemo.R
 import com.zrq.videodemo.adapter.ResultAdapter
@@ -31,17 +32,20 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
     private var page = 1
     private var count = 0
     private var keyword = ""
+    private var isRefresh = false
 
     override fun initData() {
         mAdapter = ResultAdapter(requireContext(), list) {
             mainModel.videoId = list[it].videoId
             Navigation.findNavController(requireActivity(), R.id.fragment_container)
                 .navigate(R.id.action_global_contentFragment)
+            mainModel.clearBottomFocus()
         }
         mBinding.apply {
             recyclerView.adapter = mAdapter
         }
         Log.d(TAG, "initData: ${mainModel.keywords}")
+
         keyword = mainModel.keywords.first
         mainModel.setSearchHintText("搜索页：$keyword")
 
@@ -50,24 +54,38 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
 
     override fun initEvent() {
         mainModel.onBackPress = {
-            mainModel.keywords.pop()
+            if (mainModel.nowPage == PAGE_RESULT)
+                if (mainModel.keywords.size > 0)
+                    mainModel.keywords.pop()
             true
         }
-        mBinding.refreshLayout.setOnRefreshListener {
-            page = 1
-            loadVideo()
-        }
-        mBinding.refreshLayout.setOnLoadMoreListener {
-            if (PAGE_COUNT * page > count) {
-                mBinding.refreshLayout.finishLoadMoreWithNoMoreData()
-            } else {
-                page++
+        mBinding.apply {
+
+            refreshLayout.setOnRefreshListener {
+                isRefresh = true
+                page = 1
                 loadVideo()
             }
+            refreshLayout.setOnLoadMoreListener {
+                if (PAGE_COUNT * page > count) {
+                    mBinding.refreshLayout.finishLoadMoreWithNoMoreData()
+                } else {
+                    page++
+                    loadVideo()
+                }
+            }
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dy > 20)
+                        mainModel.clearBottomFocus()
+                }
+            })
         }
         mainModel.apply {
             onRefreshClickListener = {
-                mBinding.refreshLayout.autoRefresh()
+                if (mainModel.nowPage == PAGE_RESULT)
+                    mBinding.refreshLayout.autoRefresh()
             }
         }
 
@@ -83,6 +101,10 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
                     if (page == 1) {
                         count = result.count
                         list.clear()
+                        if (isRefresh) {
+                            Toast.makeText(requireContext(), "刷新成功，总共" + count + "条数据", Toast.LENGTH_SHORT).show()
+                            isRefresh = false
+                        }
                     }
                     result.data?.let { list.addAll(it) }
                     mAdapter.notifyDataSetChanged()

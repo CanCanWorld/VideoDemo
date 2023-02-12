@@ -1,5 +1,8 @@
 package com.zrq.videodemo.bean
 
+import androidx.annotation.Keep
+
+@Keep
 data class Content(
     val code: Int,
     val count: Int,
@@ -8,6 +11,7 @@ data class Content(
     var pos: Int
 )
 
+@Keep
 data class Data(
     val actor: String,
     val chapterList: MutableList<Chapter>,
@@ -22,7 +26,16 @@ data class Data(
     val videoType: String
 )
 
+@Keep
 data class Chapter(
     val chapterPath: String,
     val title: String
+)
+
+@Keep
+data class DownloadItem(
+    val chapter: Chapter,
+    val title: String,
+    val cover: String,
+    var progress : Int
 )

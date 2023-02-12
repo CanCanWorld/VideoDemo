@@ -2,6 +2,7 @@ package com.zrq.videodemo
 
 import androidx.lifecycle.ViewModel
 import com.zrq.videodemo.bean.Content
+import com.zrq.videodemo.bean.DownloadItem
 import com.zrq.videodemo.db.MyDatabase
 import java.util.*
 
@@ -15,4 +16,7 @@ class MainModel : ViewModel() {
     var nowPage = "SEARCH"
     var setSearchHintText: (String) -> Unit = {}
     var setSearchText: (String) -> Unit = {}
+    var clearBottomFocus: () -> Unit = {}
+    var downloadItems = mutableListOf<DownloadItem>()
+
 }

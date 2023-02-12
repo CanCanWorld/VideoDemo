@@ -25,6 +25,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         mainModel.setSearchText("")
         initData()
         initEvent()
+        mainModel.clearBottomFocus()
         return mBinding.root
     }
 
