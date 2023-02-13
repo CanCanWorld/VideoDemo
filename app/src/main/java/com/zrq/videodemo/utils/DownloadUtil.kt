@@ -24,6 +24,9 @@ object DownloadUtil {
         Log.d(TAG, "path: $filePath")
         Aria.download(this).register()  //注册aria
         val option = M3U8VodOption().apply {
+            setUseDefConvert(false)
+            setBandWidthUrlConverter(MyConvert.MyBandWidthDefConverter())
+            setVodTsUrlConvert(MyConvert.TSConvert())
             merge(true)
         }
         Aria.download(ctx)
