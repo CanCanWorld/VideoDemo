@@ -2,10 +2,16 @@ package com.zrq.videodemo.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.zrq.videodemo.R
 import com.zrq.videodemo.bean.Chapter
 import com.zrq.videodemo.databinding.ItemDownloadBinding
+import com.zrq.videodemo.utils.Constants.DOWN_ERROR
+import com.zrq.videodemo.utils.Constants.DOWN_FINISH
+import com.zrq.videodemo.utils.Constants.DOWN_ING
+import com.zrq.videodemo.utils.Constants.DOWN_NON
 
 class DownloadAdapter(
     private val context: Context,
@@ -17,9 +23,27 @@ class DownloadAdapter(
     }
 
     override fun onBindViewHolder(holder: VH<ItemDownloadBinding>, position: Int) {
-        val love = list[position]
+        val item = list[position]
         holder.binding.apply {
-            tvTitle.text = love.title
+            tvTitle.text = item.title
+            when (item.state) {
+                DOWN_NON -> {
+                    ivState.visibility = View.GONE
+                }
+                DOWN_ING -> {
+                    ivState.visibility = View.VISIBLE
+                    ivState.setImageResource(R.drawable.ic_xiazaizhong)
+                }
+                DOWN_FINISH -> {
+                    ivState.visibility = View.VISIBLE
+                    ivState.setImageResource(R.drawable.ic_xiazaiwancheng)
+                }
+                DOWN_ERROR -> {
+                    ivState.visibility = View.VISIBLE
+                    ivState.setImageResource(R.drawable.ic_xiazaishibai)
+                }
+                else -> {}
+            }
             root.setOnClickListener { onItemClickListener(position) }
         }
     }

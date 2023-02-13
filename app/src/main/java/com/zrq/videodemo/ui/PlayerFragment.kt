@@ -135,7 +135,6 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
     override fun onResume() {
         super.onResume()
-        mBinding.videoView.resume()
     }
 
     private companion object {

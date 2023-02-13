@@ -31,7 +31,7 @@ public class MyConvert {
 
             String parentUrl = m3u8Url.substring(0, index + 1);
             for (String temp : tsUrls) {
-                if (temp.contains("http:\\") || temp.contains("https:\\")) {
+                if (temp.contains("http")) {
                     convertedTsUrl.add(temp);
                     Log.d(TAG, "temp: " + temp);
                 } else {

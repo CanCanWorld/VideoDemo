@@ -2,8 +2,8 @@ package com.zrq.videodemo
 
 import androidx.lifecycle.ViewModel
 import com.zrq.videodemo.bean.Content
-import com.zrq.videodemo.bean.DownloadItem
 import com.zrq.videodemo.db.MyDatabase
+import com.zrq.videodemo.db.bean.DownloadItem
 import java.util.*
 
 class MainModel : ViewModel() {
@@ -17,6 +17,14 @@ class MainModel : ViewModel() {
     var setSearchHintText: (String) -> Unit = {}
     var setSearchText: (String) -> Unit = {}
     var clearBottomFocus: () -> Unit = {}
-    var downloadItems = mutableListOf<DownloadItem>()
+    val localVideo = mutableListOf<DownloadItem>()
 
+    init {
+    }
+
+
+
+   private companion object{
+        const val TAG = "MainModel"
+    }
 }

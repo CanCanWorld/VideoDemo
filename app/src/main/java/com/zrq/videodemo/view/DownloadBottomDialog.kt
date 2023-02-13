@@ -1,20 +1,19 @@
 package com.zrq.videodemo.view
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.navigation.Navigation
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.zrq.videodemo.MainModel
 import com.zrq.videodemo.R
 import com.zrq.videodemo.adapter.DownloadAdapter
-import com.zrq.videodemo.bean.Chapter
 import com.zrq.videodemo.bean.Content
-import com.zrq.videodemo.bean.DownloadItem
 import com.zrq.videodemo.databinding.BottomDownloadBinding
+import com.zrq.videodemo.db.bean.DownloadItem
+import com.zrq.videodemo.utils.Constants
 import com.zrq.videodemo.utils.DownloadUtil
 import com.zrq.videodemo.utils.OtherUtils
 
@@ -52,12 +51,23 @@ class DownloadBottomDialog(
 
     private lateinit var mAdapter: DownloadAdapter
 
-    @SuppressLint("SetTextI18n")
     private fun initData() {
         val data = content.data
         mAdapter = DownloadAdapter(ctx, data.chapterList) {
-            mainModel.downloadItems.add(DownloadItem(data.chapterList[it], data.title, data.cover, 0))
-            DownloadUtil.downloadOne(ctx, data.title, data.chapterList[it].title, data.chapterList[it].chapterPath)
+            mainModel.db?.downloadDao()?.let { dao ->
+                val taskId = DownloadUtil.downloadOne(ctx, data.title, data.chapterList[it].title, data.chapterList[it].chapterPath)
+                if (taskId == -1L) {
+                    Toast.makeText(context, "创建失败", Toast.LENGTH_SHORT).show()
+                    return@DownloadAdapter
+                }
+                data.chapterList[it].state = Constants.DOWN_ING
+                mAdapter.notifyItemChanged(it)
+                val item = DownloadItem(
+                    taskId, data.title, data.chapterList[it].title,
+                    data.chapterList[it].chapterPath, data.cover, 0
+                )
+                dao.insertItem(item)
+            }
         }
         mBinding.apply {
             recyclerView.adapter = mAdapter

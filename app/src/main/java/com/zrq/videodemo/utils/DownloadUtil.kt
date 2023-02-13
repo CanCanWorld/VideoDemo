@@ -6,41 +6,51 @@ import com.arialyy.annotations.Download
 import com.arialyy.aria.core.Aria
 import com.arialyy.aria.core.download.m3u8.M3U8VodOption
 import com.arialyy.aria.core.task.DownloadTask
+import com.zrq.videodemo.db.bean.DownloadItem
 import java.io.File
 
 
 object DownloadUtil {
 
-    var mCallback: (Int) -> Unit = {}
+    var runningListener: (DownloadTask) -> Unit = { }
 
-    fun downloadOne(ctx: Context, dirName: String, fileName: String, m3u8: String) {
+    init {
+        Aria.download(this).register()  //注册aria
+    }
+
+    fun downloadOne(ctx: Context, dirName: String, fileName: String, m3u8: String): Long {
         Log.d(TAG, "downloadOne: $m3u8")
         val dirPath = ctx.getExternalFilesDir(null)!!.absolutePath + File.separator + dirName
-        val filePath = ctx.getExternalFilesDir(null)!!.absolutePath + File.separator + dirName + File.separator + fileName + ".mp4"
+        val filePath = dirPath + File.separator + fileName + ".mp4"
         val dir = File(dirPath)
         if (!dir.exists()) {
             dir.mkdir()
         }
         Log.d(TAG, "path: $filePath")
-        Aria.download(this).register()  //注册aria
         val option = M3U8VodOption().apply {
             setUseDefConvert(false)
             setBandWidthUrlConverter(MyConvert.MyBandWidthDefConverter())
             setVodTsUrlConvert(MyConvert.TSConvert())
             merge(true)
         }
-        Aria.download(ctx)
+        return Aria.download(ctx)
             .load(m3u8)
             .setFilePath(filePath)
             .m3u8VodOption(option)
             .create()
+    }
 
+    fun start(ctx: Context, taskId: Long){
+        Aria.download(ctx).load(taskId).reStart()
+    }
+
+    fun pause(ctx: Context, taskId: Long) {
+        Aria.download(ctx).load(taskId).stop()
     }
 
 
     @Download.onWait
     fun onWait(task: DownloadTask) {
-        task.downloadEntity
         Log.d(TAG, "wait ==> " + task.downloadEntity.fileName)
     }
 
@@ -57,7 +67,7 @@ object DownloadUtil {
     @Download.onTaskRunning
     fun running(task: DownloadTask) {
         Log.d(TAG, "running ${task.percent}")
-        mCallback(task.percent)
+        runningListener(task)
     }
 
     @Download.onTaskResume

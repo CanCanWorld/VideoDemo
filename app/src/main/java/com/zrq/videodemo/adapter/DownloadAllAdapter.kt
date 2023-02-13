@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.zrq.videodemo.bean.DownloadItem
+import com.zrq.videodemo.bean.Download
 import com.zrq.videodemo.databinding.ItemDownloadAllBinding
 
 class DownloadAllAdapter(
     private val context: Context,
-    private val list: MutableList<DownloadItem>,
+    private val list: MutableList<Download>,
     private val onItemClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<VH<ItemDownloadAllBinding>>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH<ItemDownloadAllBinding> {
@@ -18,15 +18,15 @@ class DownloadAllAdapter(
     }
 
     override fun onBindViewHolder(holder: VH<ItemDownloadAllBinding>, position: Int) {
-        val data = list[position]
+        val data = list[position].downloadItem
         holder.binding.apply {
             Glide.with(context)
                 .load(data.cover)
                 .into(ivCover)
             tvTitle.text = data.title
-            tvChapter.text = data.chapter.title
-            tvProgress.text = data.progress.toString()
-            progressbar.progress = data.progress
+            tvChapter.text = data.chapterTitle
+            tvProgress.text = data.percent.toString()
+            progressbar.progress = data.percent
             root.setOnClickListener { onItemClickListener(position) }
         }
     }

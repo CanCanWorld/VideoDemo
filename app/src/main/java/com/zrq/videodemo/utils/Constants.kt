@@ -24,4 +24,10 @@ object Constants {
     const val PAGE_CONTENT = "CONTENT"
     const val PAGE_PLAYER = "PLAYER"
     const val PAGE_DOWN = "DOWN"
+
+    const val DOWN_NON = 0
+    const val DOWN_ERROR = -1
+    const val DOWN_ING = 1
+    const val DOWN_FINISH = 2
+    const val DOWN_STOP = 3
 }

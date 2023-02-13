@@ -19,6 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
+
     <LinearLayout
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
@@ -33,6 +34,15 @@
             android:layout_weight="1"
             android:padding="4dp"
             android:src="@drawable/ic_fanhui"
+            app:tint="@color/grey" />
+
+        <ImageView
+            android:id="@+id/ivDownload"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:src="@drawable/ic_xiazai"
             app:tint="@color/grey" />
 
         <EditText

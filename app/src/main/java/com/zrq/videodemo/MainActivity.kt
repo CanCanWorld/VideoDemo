@@ -3,6 +3,7 @@ package com.zrq.videodemo
 import android.Manifest
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -16,6 +17,7 @@ import com.tencent.mmkv.MMKV
 import com.zrq.videodemo.databinding.ActivityMainBinding
 import com.zrq.videodemo.db.DbController
 import com.zrq.videodemo.utils.Constants.PAGE_SEARCH
+import com.zrq.videodemo.utils.OtherUtils
 import com.zrq.videodemo.utils.StatusBarUtil
 import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory
 import xyz.doikki.videoplayer.player.VideoViewConfig
@@ -42,6 +44,8 @@ class MainActivity : AppCompatActivity() {
                 .build()
         );
         Aria.init(this);
+        mainModel.localVideo.clear()
+        mainModel.localVideo.addAll(OtherUtils.listFiles(this))
     }
 
     private fun initDB() {
@@ -77,6 +81,10 @@ class MainActivity : AppCompatActivity() {
                 it.startAnimation(AnimationUtils.loadAnimation(that, R.anim.anim_translate))
                 onBackPressed()
             }
+            ivDownload.setOnClickListener {
+                Navigation.findNavController(that, R.id.fragment_container)
+                    .navigate(R.id.downloadFragment)
+            }
             ivHome.setOnClickListener {
                 if (mainModel.nowPage == PAGE_SEARCH) {
                     Toast.makeText(that, "当前正在主页", Toast.LENGTH_SHORT).show()
@@ -111,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(this, PERMISSIONS, 1)
     }
 
-        private companion object {
+    private companion object {
         private const val TAG = "MainActivity"
 
 

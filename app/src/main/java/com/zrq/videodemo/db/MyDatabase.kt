@@ -2,13 +2,16 @@ package com.zrq.videodemo.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.zrq.videodemo.db.bean.DownloadItem
 import com.zrq.videodemo.db.bean.Love
 import com.zrq.videodemo.db.bean.Message
+import com.zrq.videodemo.db.dao.DownloadDao
 import com.zrq.videodemo.db.dao.LoveDao
 import com.zrq.videodemo.db.dao.MessageDao
 
-@Database(entities = [Message::class, Love::class], version = 1, exportSchema = false)
+@Database(entities = [Message::class, Love::class, DownloadItem::class], version = 1, exportSchema = false)
 abstract class MyDatabase : RoomDatabase() {
     abstract fun messageDao(): MessageDao?
     abstract fun loveDao(): LoveDao?
+    abstract fun downloadDao(): DownloadDao?
 }

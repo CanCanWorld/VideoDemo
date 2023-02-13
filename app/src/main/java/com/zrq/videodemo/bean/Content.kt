@@ -1,6 +1,7 @@
 package com.zrq.videodemo.bean
 
 import androidx.annotation.Keep
+import com.zrq.videodemo.utils.Constants
 
 @Keep
 data class Content(
@@ -8,7 +9,7 @@ data class Content(
     val count: Int,
     val data: Data,
     val msg: String,
-    var pos: Int
+    var pos: Int,
 )
 
 @Keep
@@ -29,13 +30,6 @@ data class Data(
 @Keep
 data class Chapter(
     val chapterPath: String,
-    val title: String
-)
-
-@Keep
-data class DownloadItem(
-    val chapter: Chapter,
     val title: String,
-    val cover: String,
-    var progress : Int
+    var state: Int = Constants.DOWN_NON,
 )
