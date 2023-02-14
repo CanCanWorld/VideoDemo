@@ -16,6 +16,7 @@ import com.tencent.mmkv.MMKV
 import com.zrq.videodemo.databinding.ActivityMainBinding
 import com.zrq.videodemo.db.DbController
 import com.zrq.videodemo.utils.Constants.PAGE_SEARCH
+import com.zrq.videodemo.utils.OtherUtils
 import com.zrq.videodemo.utils.StatusBarUtil
 import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory
 import xyz.doikki.videoplayer.player.VideoViewConfig
@@ -42,6 +43,14 @@ class MainActivity : AppCompatActivity() {
                 .build()
         )
         Aria.init(this)
+
+        val listFiles = OtherUtils.listFiles(this)
+        val downloadingFiles = mainModel.db?.downloadDao()?.queryAll() ?: mutableListOf()
+        downloadingFiles.forEach {
+            listFiles.removeIf { f -> f.title == it.title && f.chapterTitle == it.chapterTitle }
+        }
+        mainModel.localVideo.clear()
+        mainModel.localVideo.addAll(listFiles)
     }
 
     private fun initDB() {

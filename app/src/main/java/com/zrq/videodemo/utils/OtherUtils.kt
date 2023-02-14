@@ -38,8 +38,8 @@ object OtherUtils {
                     val files2 = file.listFiles()
                     for (file2 in files2!!) {
                         Log.d(TAG, "file2: ${file2.name}")
-                        if (file2.name.endsWith("mp4")) {
-                            val item = DownloadItem(-1, file.name, file2.name, file2.absolutePath, "", 100)
+                        if (file2.name.endsWith(".mp4")) {
+                            val item = DownloadItem(-1, file.name, file2.name.removeSuffix(".mp4"), file2.absolutePath, "", 100)
                             list.add(item)
                         }
                     }

@@ -15,10 +15,13 @@ import com.zrq.videodemo.R
 import com.zrq.videodemo.adapter.ChapterAdapter
 import com.zrq.videodemo.bean.Chapter
 import com.zrq.videodemo.bean.Content
+import com.zrq.videodemo.bean.ContentData
 import com.zrq.videodemo.databinding.FragmentContentBinding
 import com.zrq.videodemo.db.bean.Love
 import com.zrq.videodemo.utils.Constants.BASE_URL
 import com.zrq.videodemo.utils.Constants.CONTENT
+import com.zrq.videodemo.utils.Constants.DOWN_COMPLETE
+import com.zrq.videodemo.utils.Constants.DOWN_RUN
 import com.zrq.videodemo.utils.Constants.PAGE_CONTENT
 import com.zrq.videodemo.utils.HttpUtil
 import com.zrq.videodemo.utils.OtherUtils
@@ -33,6 +36,7 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
     private lateinit var mAdapter: ChapterAdapter
     private var isLove = false
     private var downloadBottomDialog: DownloadBottomDialog? = null
+    private var contentCache: ContentData? = null
 
     override fun initData() {
         mAdapter = ChapterAdapter(requireContext(), list) {
@@ -72,7 +76,8 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
                                 "\n地区：" + content.data.region +
                                 "\n发布时间：" + content.data.releaseTime
                         list.clear()
-                        list.addAll(content.data.chapterList)
+                        contentCache = content.data
+                        checkList()
                         mAdapter.notifyDataSetChanged()
 
                         mainModel.db?.loveDao()?.let { dao ->
@@ -91,6 +96,36 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
                 }
             }
         }
+    }
+
+    private fun checkList() {
+        contentCache?.let { data ->
+            mainModel.localVideo.forEach { local ->
+                if (local.title == data.title) {
+                    data.chapterList.forEach {
+                        if (local.chapterTitle == it.title) {
+                            it.state = DOWN_COMPLETE
+                            it.chapterPath = local.chapterPath
+                        }
+                    }
+                }
+            }
+            mainModel.db?.downloadDao()?.queryAll()?.forEach { download ->
+                if (download.title == data.title) {
+                    data.chapterList.forEach {
+                        if (download.chapterTitle == it.title) {
+                            it.state = DOWN_RUN
+                        }
+                    }
+                }
+            }
+            list.addAll(data.chapterList)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkList()
     }
 
     override fun initEvent() {
@@ -115,7 +150,10 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
         mBinding.btnDownload.setOnClickListener {
             if (downloadBottomDialog == null) {
                 mainModel.contentData?.let {
-                    downloadBottomDialog = DownloadBottomDialog(requireContext(), requireActivity(), mainModel, it)
+                    downloadBottomDialog = DownloadBottomDialog(requireContext(), requireActivity(), mainModel, it) {
+                        Log.d(TAG, "dismiss: ")
+                        checkList()
+                    }
                 }
             }
 

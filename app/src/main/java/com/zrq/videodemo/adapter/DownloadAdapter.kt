@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zrq.videodemo.R
 import com.zrq.videodemo.bean.Chapter
 import com.zrq.videodemo.databinding.ItemDownloadBinding
-import com.zrq.videodemo.utils.Constants.DOWN_ERROR
-import com.zrq.videodemo.utils.Constants.DOWN_FINISH
-import com.zrq.videodemo.utils.Constants.DOWN_ING
+import com.zrq.videodemo.utils.Constants.DOWN_FAIL
+import com.zrq.videodemo.utils.Constants.DOWN_COMPLETE
+import com.zrq.videodemo.utils.Constants.DOWN_RUN
 import com.zrq.videodemo.utils.Constants.DOWN_NON
 
 class DownloadAdapter(
@@ -30,15 +30,15 @@ class DownloadAdapter(
                 DOWN_NON -> {
                     ivState.visibility = View.GONE
                 }
-                DOWN_ING -> {
+                DOWN_RUN -> {
                     ivState.visibility = View.VISIBLE
                     ivState.setImageResource(R.drawable.ic_xiazaizhong)
                 }
-                DOWN_FINISH -> {
+                DOWN_COMPLETE -> {
                     ivState.visibility = View.VISIBLE
                     ivState.setImageResource(R.drawable.ic_xiazaiwancheng)
                 }
-                DOWN_ERROR -> {
+                DOWN_FAIL -> {
                     ivState.visibility = View.VISIBLE
                     ivState.setImageResource(R.drawable.ic_xiazaishibai)
                 }

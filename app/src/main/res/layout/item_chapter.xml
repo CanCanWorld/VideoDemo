@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/shape_item_chapter"
-    android:foreground="@drawable/pressed_background_pink"
-    android:layout_margin="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="60dp"
+    android:foreground="@drawable/pressed_background_pink"
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/tvTitle"
-        android:paddingVertical="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
+        android:layout_margin="4dp"
+        android:background="@drawable/shape_item_chapter"
+        android:gravity="center"
         android:textColor="@color/grey_" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivState"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_xiazaizhong"
+        android:visibility="gone"
+        app:shapeAppearance="@style/circle_img"
+        tools:visibility="visible" />
 
 </RelativeLayout>

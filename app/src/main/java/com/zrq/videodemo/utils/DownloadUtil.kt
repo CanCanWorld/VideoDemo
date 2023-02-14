@@ -6,13 +6,20 @@ import com.arialyy.annotations.Download
 import com.arialyy.aria.core.Aria
 import com.arialyy.aria.core.download.m3u8.M3U8VodOption
 import com.arialyy.aria.core.task.DownloadTask
-import com.zrq.videodemo.db.bean.DownloadItem
 import java.io.File
 
 
 object DownloadUtil {
 
-    var runningListener: (DownloadTask) -> Unit = { }
+    private val listeners = mutableListOf<DownloadListener>()
+
+    fun addListener(listener: DownloadListener) {
+        listeners.add(listener)
+    }
+
+    fun removeListener(listener: DownloadListener) {
+        listeners.remove(listener)
+    }
 
     init {
         Aria.download(this).register()  //注册aria
@@ -40,7 +47,7 @@ object DownloadUtil {
             .create()
     }
 
-    fun start(ctx: Context, taskId: Long){
+    fun start(ctx: Context, taskId: Long) {
         Aria.download(ctx).load(taskId).reStart()
     }
 
@@ -52,48 +59,75 @@ object DownloadUtil {
     @Download.onWait
     fun onWait(task: DownloadTask) {
         Log.d(TAG, "wait ==> " + task.downloadEntity.fileName)
+        listeners.forEach {
+            it.onWait(task)
+        }
     }
 
     @Download.onPre
-    fun onPre(task: DownloadTask?) {
+    fun onPre(task: DownloadTask) {
         Log.d(TAG, "onPre")
+        listeners.forEach {
+            it.onPre(task)
+        }
     }
 
     @Download.onTaskStart
-    fun taskStart(task: DownloadTask?) {
+    fun taskStart(task: DownloadTask) {
         Log.d(TAG, "onStart")
+        listeners.forEach {
+            it.onStart(task)
+        }
     }
 
     @Download.onTaskRunning
     fun running(task: DownloadTask) {
         Log.d(TAG, "running ${task.percent}")
-        runningListener(task)
+        listeners.forEach {
+            it.onRun(task)
+        }
     }
 
     @Download.onTaskResume
-    fun taskResume(task: DownloadTask?) {
+    fun taskResume(task: DownloadTask) {
         Log.d(TAG, "resume")
+        listeners.forEach {
+            it.onResume(task)
+        }
     }
 
     @Download.onTaskStop
-    fun taskStop(task: DownloadTask?) {
+    fun taskStop(task: DownloadTask) {
         Log.d(TAG, "stop")
+        listeners.forEach {
+            it.onStop(task)
+        }
     }
 
     @Download.onTaskCancel
-    fun taskCancel(task: DownloadTask?) {
+    fun taskCancel(task: DownloadTask) {
         Log.d(TAG, "cancel")
+        listeners.forEach {
+            it.onCancel(task)
+        }
     }
 
     @Download.onTaskFail
-    fun taskFail(task: DownloadTask?) {
+    fun taskFail(task: DownloadTask) {
         Log.d(TAG, "fail")
+        listeners.forEach {
+            it.onFail(task)
+        }
     }
 
     @Download.onTaskComplete
     fun taskComplete(task: DownloadTask) {
+        Log.d(TAG, "taskComplete: ")
+        listeners.forEach {
+            it.onComplete(task)
+        }
+
     }
 
     private const val TAG = "DownloadUtil"
-
 }

@@ -27,8 +27,9 @@ object Constants {
     const val PAGE_DOWNLOADING = "DOWNLOADING"
 
     const val DOWN_NON = 0
-    const val DOWN_ERROR = -1
-    const val DOWN_ING = 1
-    const val DOWN_FINISH = 2
+    const val DOWN_FAIL = -1
+    const val DOWN_RUN = 1
+    const val DOWN_COMPLETE = 2
     const val DOWN_STOP = 3
+    const val DOWN_PRE = 4
 }

@@ -6,9 +6,14 @@ import android.view.ViewGroup
 import com.zrq.videodemo.adapter.DownloadingAdapter
 import com.zrq.videodemo.bean.Download
 import com.zrq.videodemo.databinding.FragmentDownloadingBinding
-import com.zrq.videodemo.utils.Constants
+import com.zrq.videodemo.utils.Constants.DOWN_FAIL
+import com.zrq.videodemo.utils.Constants.DOWN_PRE
+import com.zrq.videodemo.utils.Constants.DOWN_RUN
+import com.zrq.videodemo.utils.Constants.DOWN_STOP
 import com.zrq.videodemo.utils.Constants.PAGE_DOWNLOADING
+import com.zrq.videodemo.utils.DownloadListener
 import com.zrq.videodemo.utils.DownloadUtil
+import com.zrq.videodemo.utils.OtherUtils
 
 class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
     override fun providedViewBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentDownloadingBinding {
@@ -17,6 +22,7 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
 
     private lateinit var mAdapter: DownloadingAdapter
     private val list = mutableListOf<Download>()
+    private val downloadListener = DownloadListener()
 
     override fun initData() {
         mainModel.db?.downloadDao()?.let {
@@ -28,14 +34,14 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
         mainModel.setSearchHintText("下载页")
         mAdapter = DownloadingAdapter(requireContext(), list) {
             val item = list[it].downloadItem
-            when (list[it].isRunning) {
-                Constants.DOWN_ING -> {
+            when (list[it].state) {
+                DOWN_RUN -> {
                     DownloadUtil.pause(requireContext(), item.taskId)
-                    list[it].isRunning = Constants.DOWN_STOP
+                    list[it].state = DOWN_STOP
                 }
-                Constants.DOWN_STOP -> {
+                DOWN_STOP -> {
                     DownloadUtil.downloadOne(requireContext(), item.title, item.chapterTitle, item.chapterPath)
-                    list[it].isRunning = Constants.DOWN_ING
+                    list[it].state = DOWN_RUN
                 }
             }
         }
@@ -46,17 +52,81 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun initEvent() {
-        DownloadUtil.runningListener = { task ->
+        downloadListener.onRun = { task ->
             list.forEach {
                 it.downloadItem.apply {
                     if (taskId == task.entity.id) {
                         percent = task.percent
+                        it.state = DOWN_RUN
                     }
                 }
-                if (it.isRunning == Constants.DOWN_STOP) it.isRunning = Constants.DOWN_ING
             }
             mAdapter.notifyDataSetChanged()
         }
+        downloadListener.onStop = { task ->
+            list.forEach {
+                it.downloadItem.apply {
+                    if (taskId == task.entity.id) {
+                        it.state = DOWN_STOP
+                    }
+                }
+            }
+            mAdapter.notifyDataSetChanged()
+        }
+        downloadListener.onPre = { task ->
+            list.forEach {
+                it.downloadItem.apply {
+                    if (taskId == task.entity.id) {
+                        it.state = DOWN_PRE
+                    }
+                }
+            }
+            mAdapter.notifyDataSetChanged()
+        }
+        downloadListener.onResume = { task ->
+            list.forEach {
+                it.downloadItem.apply {
+                    if (taskId == task.entity.id) {
+                        it.state = DOWN_RUN
+                    }
+                }
+            }
+            mAdapter.notifyDataSetChanged()
+        }
+        downloadListener.onFail = { task ->
+            list.forEach {
+                it.downloadItem.apply {
+                    if (taskId == task.entity.id) {
+                        it.state = DOWN_FAIL
+                    }
+                }
+            }
+            mAdapter.notifyDataSetChanged()
+        }
+        downloadListener.onComplete = { task ->
+            list.forEach {
+                it.downloadItem.apply {
+                    if (taskId == task.entity.id) {
+                        mainModel.db?.downloadDao()?.delete(this)
+
+                        val listFiles = OtherUtils.listFiles(requireContext())
+                        val downloadingFiles = mainModel.db?.downloadDao()?.queryAll() ?: mutableListOf()
+                        downloadingFiles.forEach {
+                            listFiles.removeIf { f -> f.title == it.title && f.chapterTitle == it.chapterTitle }
+                        }
+                        mainModel.localVideo.clear()
+                        mainModel.localVideo.addAll(listFiles)
+                    }
+                }
+            }
+            mAdapter.notifyDataSetChanged()
+        }
+        DownloadUtil.addListener(downloadListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DownloadUtil.addListener(downloadListener)
     }
 
     override fun setNowPage(): String = PAGE_DOWNLOADING

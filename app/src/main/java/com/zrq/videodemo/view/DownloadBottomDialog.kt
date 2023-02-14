@@ -3,6 +3,7 @@ package com.zrq.videodemo.view
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.navigation.Navigation
@@ -22,6 +23,7 @@ class DownloadBottomDialog(
     private val activity: Activity,
     private val mainModel: MainModel,
     private val content: ContentData,
+    private val onDismiss: () -> Unit
 ) : BottomSheetDialog(ctx) {
 
     private lateinit var mBinding: BottomDownloadBinding
@@ -59,7 +61,7 @@ class DownloadBottomDialog(
                     Toast.makeText(context, "创建失败", Toast.LENGTH_SHORT).show()
                     return@DownloadAdapter
                 }
-                content.chapterList[it].state = Constants.DOWN_ING
+                content.chapterList[it].state = Constants.DOWN_RUN
                 mAdapter.notifyItemChanged(it)
                 val item = DownloadItem(
                     taskId, content.title, content.chapterList[it].title,
@@ -87,6 +89,12 @@ class DownloadBottomDialog(
                     .navigate(R.id.downloadFragment)
             }
         }
+    }
+
+    override fun dismiss() {
+        onDismiss()
+        super.dismiss()
+        Log.d(TAG, "dismiss: ")
     }
 
     private companion object {

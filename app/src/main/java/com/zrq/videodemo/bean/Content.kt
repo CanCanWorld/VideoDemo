@@ -29,7 +29,7 @@ data class ContentData(
 
 @Keep
 data class Chapter(
-    val chapterPath: String,
+    var chapterPath: String,
     val title: String,
     var state: Int = Constants.DOWN_NON,
 )

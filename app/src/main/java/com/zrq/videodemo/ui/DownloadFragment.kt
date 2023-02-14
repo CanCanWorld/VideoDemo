@@ -1,17 +1,17 @@
 package com.zrq.videodemo.ui
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import com.zrq.videodemo.R
 import com.zrq.videodemo.adapter.DownloadedAdapter
-import com.zrq.videodemo.adapter.DownloadingAdapter
 import com.zrq.videodemo.bean.Chapter
 import com.zrq.videodemo.bean.ContentData
-import com.zrq.videodemo.bean.Download
 import com.zrq.videodemo.databinding.FragmentDownloadBinding
 import com.zrq.videodemo.db.bean.DownloadItem
-import com.zrq.videodemo.utils.Constants.DOWN_FINISH
 import com.zrq.videodemo.utils.Constants.PAGE_DOWNLOADED
 import com.zrq.videodemo.utils.OtherUtils
 
@@ -24,8 +24,7 @@ class DownloadFragment : BaseFragment<FragmentDownloadBinding>() {
     private val list = mutableListOf<DownloadItem>()
 
     override fun initData() {
-        mainModel.localVideo.clear()
-        mainModel.localVideo.addAll(OtherUtils.listFiles(requireContext()))
+
         list.clear()
         list.addAll(mainModel.localVideo)
         mainModel.setSearchHintText("下载完成页")
@@ -43,12 +42,22 @@ class DownloadFragment : BaseFragment<FragmentDownloadBinding>() {
         }
         mBinding.apply {
             recyclerView.adapter = mAdapter
+            val downNum = mainModel.db?.downloadDao()?.queryAll()?.size ?: 0
+            if (downNum == 0) {
+                RlDownloading.visibility = View.GONE
+            } else {
+                RlDownloading.visibility = View.VISIBLE
+                val path = mainModel.db!!.downloadDao()!!.queryAll()[0].cover
+                Glide.with(this@DownloadFragment)
+                    .load(path)
+                    .into(ivCover)
+            }
         }
     }
 
     override fun initEvent() {
         mBinding.apply {
-            tvDownloading.setOnClickListener {
+            RlDownloading.setOnClickListener {
                 Navigation.findNavController(requireActivity(), R.id.fragment_container)
                     .navigate(R.id.downloadingFragment)
             }
@@ -56,4 +65,8 @@ class DownloadFragment : BaseFragment<FragmentDownloadBinding>() {
     }
 
     override fun setNowPage(): String = PAGE_DOWNLOADED
+
+    private companion object {
+        const val TAG = "DownloadFragment"
+    }
 }
