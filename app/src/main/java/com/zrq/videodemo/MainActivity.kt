@@ -3,7 +3,6 @@ package com.zrq.videodemo
 import android.Manifest
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -17,7 +16,6 @@ import com.tencent.mmkv.MMKV
 import com.zrq.videodemo.databinding.ActivityMainBinding
 import com.zrq.videodemo.db.DbController
 import com.zrq.videodemo.utils.Constants.PAGE_SEARCH
-import com.zrq.videodemo.utils.OtherUtils
 import com.zrq.videodemo.utils.StatusBarUtil
 import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory
 import xyz.doikki.videoplayer.player.VideoViewConfig
@@ -42,10 +40,8 @@ class MainActivity : AppCompatActivity() {
             VideoViewConfig.newBuilder()
                 .setPlayerFactory(ExoMediaPlayerFactory.create())
                 .build()
-        );
-        Aria.init(this);
-        mainModel.localVideo.clear()
-        mainModel.localVideo.addAll(OtherUtils.listFiles(this))
+        )
+        Aria.init(this)
     }
 
     private fun initDB() {

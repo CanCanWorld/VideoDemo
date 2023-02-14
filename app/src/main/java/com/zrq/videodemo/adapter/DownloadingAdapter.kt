@@ -6,18 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zrq.videodemo.bean.Download
-import com.zrq.videodemo.databinding.ItemDownloadAllBinding
+import com.zrq.videodemo.databinding.ItemDownloadedBinding
 
-class DownloadAllAdapter(
+class DownloadingAdapter(
     private val context: Context,
     private val list: MutableList<Download>,
     private val onItemClickListener: (Int) -> Unit
-) : RecyclerView.Adapter<VH<ItemDownloadAllBinding>>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH<ItemDownloadAllBinding> {
-        return VH(ItemDownloadAllBinding.inflate(LayoutInflater.from(context), parent, false))
+) : RecyclerView.Adapter<VH<ItemDownloadedBinding>>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH<ItemDownloadedBinding> {
+        return VH(ItemDownloadedBinding.inflate(LayoutInflater.from(context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: VH<ItemDownloadAllBinding>, position: Int) {
+    override fun onBindViewHolder(holder: VH<ItemDownloadedBinding>, position: Int) {
         val data = list[position].downloadItem
         holder.binding.apply {
             Glide.with(context)

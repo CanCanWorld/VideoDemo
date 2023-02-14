@@ -7,13 +7,12 @@ import com.zrq.videodemo.utils.Constants
 data class Content(
     val code: Int,
     val count: Int,
-    val data: Data,
+    val data: ContentData,
     val msg: String,
-    var pos: Int,
 )
 
 @Keep
-data class Data(
+data class ContentData(
     val actor: String,
     val chapterList: MutableList<Chapter>,
     val cover: String,
@@ -24,7 +23,8 @@ data class Data(
     val title: String,
     val updateTime: String,
     val videoId: String,
-    val videoType: String
+    val videoType: String,
+    var pos: Int,
 )
 
 @Keep

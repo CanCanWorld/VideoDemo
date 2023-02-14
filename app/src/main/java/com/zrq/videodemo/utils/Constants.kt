@@ -23,7 +23,8 @@ object Constants {
     const val PAGE_RESULT = "RESULT"
     const val PAGE_CONTENT = "CONTENT"
     const val PAGE_PLAYER = "PLAYER"
-    const val PAGE_DOWN = "DOWN"
+    const val PAGE_DOWNLOADED = "DOWNLOADED"
+    const val PAGE_DOWNLOADING = "DOWNLOADING"
 
     const val DOWN_NON = 0
     const val DOWN_ERROR = -1

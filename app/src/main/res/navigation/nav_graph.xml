@@ -50,4 +50,9 @@
         android:name="com.zrq.videodemo.ui.DownloadFragment"
         android:label="fragment_download"
         tools:layout="@layout/fragment_download" />
+    <fragment
+        android:id="@+id/downloadingFragment"
+        android:name="com.zrq.videodemo.ui.DownloadingFragment"
+        android:label="fragment_downloading"
+        tools:layout="@layout/fragment_downloading" />
 </navigation>

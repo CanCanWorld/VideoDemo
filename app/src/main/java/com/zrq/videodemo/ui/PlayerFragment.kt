@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.zrq.videodemo.adapter.PlayerChapterAdapter
 import com.zrq.videodemo.adapter.RecordAdapter
 import com.zrq.videodemo.bean.Chapter
-import com.zrq.videodemo.bean.Content
+import com.zrq.videodemo.bean.ContentData
 import com.zrq.videodemo.databinding.FragmentPlayerBinding
 import com.zrq.videodemo.db.bean.Message
 import com.zrq.videodemo.utils.Constants.PAGE_PLAYER
@@ -25,8 +25,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     private lateinit var recordAdapter: RecordAdapter
     private val chapterList = mutableListOf<Chapter>()
     private val recordList = mutableListOf<String>()
+    private var isAutoPause = false
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun initData() {
 
         chapterAdapter = PlayerChapterAdapter(requireContext(), chapterList) {
@@ -38,44 +38,49 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
             rvChapter.adapter = chapterAdapter
             rvMsg.adapter = recordAdapter
         }
-        mainModel.content?.let {
-            initView(it)
-            mBinding.apply {
+        mBinding.apply {
+            loadChapter()
+            val controller = MyStandardVideoController(requireContext())
 
-                chapterList.clear()
-                chapterList.addAll(it.data.chapterList)
-                chapterAdapter.notifyDataSetChanged()
-                videoView.setUrl(it.data.chapterList[it.pos].chapterPath)
-                val controller = MyStandardVideoController(requireContext())
-
-                val completeView = CompleteView(requireContext())
-                val errorView = ErrorView(requireContext())
-                val prepareView = MyPrepareView(requireContext())
-                prepareView.setClickStart()
-                val titleView = TitleView(requireContext())
-                titleView.setTitle(it.data.title)
-                controller.addControlComponent(completeView, errorView, prepareView, titleView)
-                controller.addControlComponent(VodControlView(requireContext()))
-                controller.addControlComponent(GestureView(requireContext()))
-                controller.setCanChangePosition(true)
-
-                videoView.setVideoController(controller)
-                videoView.start()
-
-                doMessageDb()
-
-
+            val completeView = CompleteView(requireContext())
+            val errorView = ErrorView(requireContext())
+            val prepareView = MyPrepareView(requireContext())
+            prepareView.setClickStart()
+            val titleView = TitleView(requireContext())
+            mainModel.contentData?.let {
+                titleView.setTitle("${it.title}-${it.chapterList[it.pos].title}")
             }
+            controller.addControlComponent(completeView, errorView, prepareView, titleView)
+            controller.addControlComponent(VodControlView(requireContext()))
+            controller.addControlComponent(GestureView(requireContext()))
+            controller.setCanChangePosition(true)
+
+            videoView.setVideoController(controller)
+            videoView.start()
+
+            doMessageDb()
+
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun loadChapter() {
+        mainModel.contentData?.let {
+            initView(it)
+            chapterList.clear()
+            chapterList.addAll(it.chapterList)
+            chapterAdapter.notifyDataSetChanged()
+            mBinding.videoView.setUrl(it.chapterList[it.pos].chapterPath)
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun doMessageDb() {
         recordList.clear()
-        mainModel.content?.let {
+        mainModel.contentData?.let {
             mainModel.db?.messageDao()?.let { dao ->
-                dao.insertMsg(Message(it.data.title, Date().time, chapterList[it.pos].title))
-                dao.queryAllByTitle(it.data.title)
+                dao.insertMsg(Message(it.title, Date().time, chapterList[it.pos].title))
+                dao.queryAllByTitle(it.title)
                     .asReversed()
                     .forEach { msg ->
                         val sdfYear = SimpleDateFormat("yyyy", Locale.CHINA)
@@ -108,17 +113,17 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initView(content: Content) {
+    private fun initView(content: ContentData) {
         mBinding.apply {
-            tvTitle.text = content.data.title
-            mainModel.setSearchHintText(content.data.title + "：" + content.data.chapterList[content.pos].title)
+            tvTitle.text = content.title
+            mainModel.setSearchHintText(content.title + "：" + content.chapterList[content.pos].title)
             rvChapter.scrollToPosition(content.pos)
         }
     }
 
     private fun changeChapter(pos: Int) {
-        if (mainModel.content?.pos == pos) return
-        mainModel.content?.pos = pos
+        if (mainModel.contentData?.pos == pos) return
+        mainModel.contentData?.pos = pos
         mBinding.videoView.release()
         mBinding.videoView.setUrl(chapterList[pos].chapterPath)
         mBinding.videoView.start()
@@ -135,6 +140,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
     override fun onResume() {
         super.onResume()
+        mBinding.videoView.resume()
+        if (isAutoPause) {
+            mBinding.videoView.start()
+        }
     }
 
     private companion object {
@@ -143,7 +152,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
     override fun onPause() {
         super.onPause()
-        mBinding.videoView.pause()
+        if (mBinding.videoView.isPlaying) {
+            mBinding.videoView.pause()
+            isAutoPause = true
+        }
     }
 
     override fun onDestroy() {

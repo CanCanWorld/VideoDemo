@@ -36,7 +36,7 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
 
     override fun initData() {
         mAdapter = ChapterAdapter(requireContext(), list) {
-            mainModel.content?.pos = it
+            mainModel.contentData?.pos = it
             Navigation.findNavController(requireActivity(), R.id.fragment_container)
                 .navigate(R.id.action_global_playerFragment)
         }
@@ -56,7 +56,7 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
         HttpUtil.httpGet(url) { success, msg ->
             if (success) {
                 val content = Gson().fromJson(msg, Content::class.java)
-                mainModel.content = content
+                mainModel.contentData = content.data
                 Handler(Looper.getMainLooper()).post {
                     mBinding.apply {
                         if (isAdded) {
@@ -96,7 +96,7 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
     override fun initEvent() {
         mBinding.ivLove.setOnClickListener {
             mainModel.db?.loveDao()?.let { dao ->
-                mainModel.content?.data?.let { data ->
+                mainModel.contentData?.let { data ->
                     if (isLove) {
                         val loves = dao.queryAllByTitle(data.title)
                         loves.forEach {
@@ -114,7 +114,7 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
 
         mBinding.btnDownload.setOnClickListener {
             if (downloadBottomDialog == null) {
-                mainModel.content?.let {
+                mainModel.contentData?.let {
                     downloadBottomDialog = DownloadBottomDialog(requireContext(), requireActivity(), mainModel, it)
                 }
             }

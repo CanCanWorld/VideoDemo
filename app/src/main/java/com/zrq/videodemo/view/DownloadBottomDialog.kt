@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.zrq.videodemo.MainModel
 import com.zrq.videodemo.R
 import com.zrq.videodemo.adapter.DownloadAdapter
-import com.zrq.videodemo.bean.Content
+import com.zrq.videodemo.bean.ContentData
 import com.zrq.videodemo.databinding.BottomDownloadBinding
 import com.zrq.videodemo.db.bean.DownloadItem
 import com.zrq.videodemo.utils.Constants
@@ -21,7 +21,7 @@ class DownloadBottomDialog(
     private val ctx: Context,
     private val activity: Activity,
     private val mainModel: MainModel,
-    private val content: Content,
+    private val content: ContentData,
 ) : BottomSheetDialog(ctx) {
 
     private lateinit var mBinding: BottomDownloadBinding
@@ -52,19 +52,18 @@ class DownloadBottomDialog(
     private lateinit var mAdapter: DownloadAdapter
 
     private fun initData() {
-        val data = content.data
-        mAdapter = DownloadAdapter(ctx, data.chapterList) {
+        mAdapter = DownloadAdapter(ctx, content.chapterList) {
             mainModel.db?.downloadDao()?.let { dao ->
-                val taskId = DownloadUtil.downloadOne(ctx, data.title, data.chapterList[it].title, data.chapterList[it].chapterPath)
+                val taskId = DownloadUtil.downloadOne(ctx, content.title, content.chapterList[it].title, content.chapterList[it].chapterPath)
                 if (taskId == -1L) {
                     Toast.makeText(context, "创建失败", Toast.LENGTH_SHORT).show()
                     return@DownloadAdapter
                 }
-                data.chapterList[it].state = Constants.DOWN_ING
+                content.chapterList[it].state = Constants.DOWN_ING
                 mAdapter.notifyItemChanged(it)
                 val item = DownloadItem(
-                    taskId, data.title, data.chapterList[it].title,
-                    data.chapterList[it].chapterPath, data.cover, 0
+                    taskId, content.title, content.chapterList[it].title,
+                    content.chapterList[it].chapterPath, content.cover, 0
                 )
                 dao.insertItem(item)
             }
