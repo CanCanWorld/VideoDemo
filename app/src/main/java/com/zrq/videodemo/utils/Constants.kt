@@ -17,7 +17,7 @@ object Constants {
 
     const val GET_TEXT_3 = "https://apis.tianapi.com/wanan/index?key=$KEY"
 
-    const val PAGE_COUNT = 20
+    const val PAGE_COUNT = 30
 
     const val PAGE_SEARCH = "SEARCH"
     const val PAGE_RESULT = "RESULT"

@@ -17,5 +17,6 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="red">#F44336</color>
     <color name="pink">#FA7296</color>
+    <color name="pink_">#FFABC1</color>
     <color name="blue">#03A9F4</color>
 </resources>

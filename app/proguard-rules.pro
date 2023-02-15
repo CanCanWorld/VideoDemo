@@ -12,8 +12,19 @@
 #   public *;
 #}
 
--keep class com.zrq.videodemo.bean.*{*;}
--keep class com.zrq.videodemo.db.bean.*{*;}
+-keep class com.zrq.videodemo.**{*;}
+
+-dontwarn com.arialyy.aria.**
+-keep class com.arialyy.aria.**{*;}
+-keep class **$$DownloadListenerProxy{ *; }
+-keep class **$$UploadListenerProxy{ *; }
+-keep class **$$DownloadGroupListenerProxy{ *; }
+-keepclasseswithmembernames class * {
+    @Download.* <methods>;
+    @Upload.* <methods>;
+    @DownloadGroup.* <methods>;
+}
+
 -keep class xyz.doikki.videoplayer.** { *; }
 -dontwarn xyz.doikki.videoplayer.**
 

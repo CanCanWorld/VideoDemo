@@ -11,4 +11,7 @@
     <string name="download">下载缓存</string>
     <string name="downloading">正在下载</string>
     <string name="downloaded">已缓存视频</string>
+    <string name="edit">编辑</string>
+    <string name="my_download">我的下载</string>
+    <string name="click_to_check">点击查看下载进度</string>
 </resources>

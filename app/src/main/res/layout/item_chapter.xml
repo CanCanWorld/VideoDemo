@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:foreground="@drawable/pressed_background_pink"
-    android:padding="5dp">
+    android:foreground="@drawable/pressed_background_pink">
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_margin="4dp"
+        android:layout_margin="5dp"
         android:background="@drawable/shape_item_chapter"
         android:gravity="center"
         android:textColor="@color/grey_" />

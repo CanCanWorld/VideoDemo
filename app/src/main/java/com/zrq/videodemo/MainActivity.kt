@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(mBinding.root)
         requestPermissions()
         MMKV.initialize(this)
-        StatusBarUtil.transparencyBar(this)
+//        StatusBarUtil.transparencyBar(this)
         mainModel = ViewModelProvider(this)[MainModel::class.java]
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
         initData()

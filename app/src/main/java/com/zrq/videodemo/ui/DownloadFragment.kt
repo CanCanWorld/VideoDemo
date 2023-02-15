@@ -54,7 +54,7 @@ class DownloadFragment : BaseFragment<FragmentDownloadBinding>() {
                 Glide.with(this@DownloadFragment)
                     .load(path)
                     .into(ivCover)
-                tvDownloadInfo.text = downNum.toString() + "个视频正在下载\n点击查看下载进度"
+                tvDownloadInfo.text = downNum.toString() + "个视频正在下载"
             }
         }
     }
@@ -64,6 +64,11 @@ class DownloadFragment : BaseFragment<FragmentDownloadBinding>() {
             RlDownloading.setOnClickListener {
                 Navigation.findNavController(requireActivity(), R.id.fragment_container)
                     .navigate(R.id.downloadingFragment)
+            }
+
+            ivBack.setOnClickListener {
+                Navigation.findNavController(requireActivity(), R.id.fragment_container)
+                    .popBackStack()
             }
         }
     }

@@ -1,8 +1,11 @@
 package com.zrq.videodemo.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import com.zrq.videodemo.R
 import com.zrq.videodemo.adapter.DownloadingAdapter
 import com.zrq.videodemo.bean.Download
 import com.zrq.videodemo.databinding.FragmentDownloadingBinding
@@ -52,10 +55,17 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun initEvent() {
+        mBinding.apply {
+            ivBack.setOnClickListener {
+                Navigation.findNavController(requireActivity(), R.id.fragment_container)
+                    .popBackStack()
+            }
+        }
         downloadListener.onRun = { task ->
             list.forEach {
                 it.downloadItem.apply {
                     if (taskId == task.entity.id) {
+                        Log.d(TAG, "onRun: ${task.percent}")
                         percent = task.percent
                         it.state = DOWN_RUN
                     }
@@ -109,13 +119,10 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
                     if (taskId == task.entity.id) {
                         mainModel.db?.downloadDao()?.delete(this)
 
-                        val listFiles = OtherUtils.listFiles(requireContext())
                         val downloadingFiles = mainModel.db?.downloadDao()?.queryAll() ?: mutableListOf()
                         downloadingFiles.forEach {
-                            listFiles.removeIf { f -> f.title == it.title && f.chapterTitle == it.chapterTitle }
+                            mainModel.localVideo.removeIf { f -> f.title == it.title && f.chapterTitle == it.chapterTitle }
                         }
-                        mainModel.localVideo.clear()
-                        mainModel.localVideo.addAll(listFiles)
                     }
                 }
             }
@@ -130,5 +137,9 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
     }
 
     override fun setNowPage(): String = PAGE_DOWNLOADING
+
+    private companion object {
+        const val TAG = "DownloadingFragment"
+    }
 
 }
