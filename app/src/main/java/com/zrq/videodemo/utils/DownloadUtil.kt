@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.arialyy.annotations.Download
 import com.arialyy.aria.core.Aria
+import com.arialyy.aria.core.common.HttpOption
 import com.arialyy.aria.core.download.m3u8.M3U8VodOption
 import com.arialyy.aria.core.task.DownloadTask
 import java.io.File
@@ -25,7 +26,7 @@ object DownloadUtil {
         Aria.download(this).register()  //注册aria
     }
 
-    fun downloadOne(ctx: Context, dirName: String, fileName: String, m3u8: String): Long {
+    fun downloadOne(ctx: Context, dirName: String, fileName: String, m3u8: String, cover: String = ""): Long {
         Log.d(TAG, "downloadOne: $m3u8")
         val dirPath = ctx.getExternalFilesDir(null)!!.absolutePath + File.separator + dirName
         val filePath = dirPath + File.separator + fileName + ".mp4"

@@ -1,5 +1,6 @@
 package com.zrq.videodemo.ui
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ class DownloadFragment : BaseFragment<FragmentDownloadBinding>() {
     private lateinit var mAdapter: DownloadedAdapter
     private val list = mutableListOf<DownloadItem>()
 
+    @SuppressLint("SetTextI18n")
     override fun initData() {
 
         list.clear()
@@ -32,9 +34,9 @@ class DownloadFragment : BaseFragment<FragmentDownloadBinding>() {
             val chapterList = mutableListOf<Chapter>()
             list.forEach { chapterList.add(Chapter(it.chapterPath, it.chapterTitle)) }
             mainModel.contentData = ContentData(
-                "", chapterList, "",
-                "", "", "", "", list[pos].title,
-                "", "", "", pos
+                "未知", chapterList, list[pos].cover,
+                "未知", "未知", "未知", "未知", list[pos].title,
+                "未知", "未知", "未知", pos
             )
             mainModel.contentData?.pos = pos
             Navigation.findNavController(requireActivity(), R.id.fragment_container)
@@ -42,7 +44,8 @@ class DownloadFragment : BaseFragment<FragmentDownloadBinding>() {
         }
         mBinding.apply {
             recyclerView.adapter = mAdapter
-            val downNum = mainModel.db?.downloadDao()?.queryAll()?.size ?: 0
+            val queryAll = mainModel.db?.downloadDao()?.queryAll() ?: mutableListOf()
+            val downNum = queryAll.size
             if (downNum == 0) {
                 RlDownloading.visibility = View.GONE
             } else {
@@ -51,6 +54,7 @@ class DownloadFragment : BaseFragment<FragmentDownloadBinding>() {
                 Glide.with(this@DownloadFragment)
                     .load(path)
                     .into(ivCover)
+                tvDownloadInfo.text = downNum.toString() + "个视频正在下载\n点击查看下载进度"
             }
         }
     }

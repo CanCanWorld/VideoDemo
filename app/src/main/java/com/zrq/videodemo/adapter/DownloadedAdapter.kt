@@ -1,8 +1,11 @@
 package com.zrq.videodemo.adapter
 
 import android.content.Context
+import android.media.MediaMetadataRetriever
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zrq.videodemo.databinding.ItemDownloadedBinding
@@ -20,9 +23,9 @@ class DownloadedAdapter(
     override fun onBindViewHolder(holder: VH<ItemDownloadedBinding>, position: Int) {
         val data = list[position]
         holder.binding.apply {
-            Glide.with(context)
-                .load(data.cover)
-                .into(ivCover)
+            val mediaMetadataRetriever = MediaMetadataRetriever()
+            mediaMetadataRetriever.setDataSource(data.chapterPath)
+            ivCover.setImageBitmap(mediaMetadataRetriever.getFrameAtTime(1))
             tvTitle.text = data.title
             tvChapter.text = data.chapterTitle
             root.setOnClickListener { onItemClickListener(position) }

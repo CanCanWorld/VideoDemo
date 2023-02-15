@@ -2,6 +2,8 @@ package com.zrq.videodemo
 
 import android.Manifest
 import android.content.Context
+import android.content.pm.ActivityInfo
+import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         MMKV.initialize(this)
         StatusBarUtil.transparencyBar(this)
         mainModel = ViewModelProvider(this)[MainModel::class.java]
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
         initData()
         initEvent()
     }

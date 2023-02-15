@@ -14,7 +14,8 @@ import com.zrq.videodemo.adapter.DownloadAdapter
 import com.zrq.videodemo.bean.ContentData
 import com.zrq.videodemo.databinding.BottomDownloadBinding
 import com.zrq.videodemo.db.bean.DownloadItem
-import com.zrq.videodemo.utils.Constants
+import com.zrq.videodemo.utils.Constants.DOWN_COMPLETE
+import com.zrq.videodemo.utils.Constants.DOWN_RUN
 import com.zrq.videodemo.utils.DownloadUtil
 import com.zrq.videodemo.utils.OtherUtils
 
@@ -55,13 +56,24 @@ class DownloadBottomDialog(
 
     private fun initData() {
         mAdapter = DownloadAdapter(ctx, content.chapterList) {
+            when (content.chapterList[it].state) {
+                DOWN_RUN -> {
+                    Toast.makeText(ctx, "已在下载列表中", Toast.LENGTH_SHORT).show()
+                    return@DownloadAdapter
+                }
+                DOWN_COMPLETE -> {
+                    Toast.makeText(ctx, "已下载完成", Toast.LENGTH_SHORT).show()
+                    return@DownloadAdapter
+                }
+                else -> {}
+            }
             mainModel.db?.downloadDao()?.let { dao ->
                 val taskId = DownloadUtil.downloadOne(ctx, content.title, content.chapterList[it].title, content.chapterList[it].chapterPath)
                 if (taskId == -1L) {
                     Toast.makeText(context, "创建失败", Toast.LENGTH_SHORT).show()
                     return@DownloadAdapter
                 }
-                content.chapterList[it].state = Constants.DOWN_RUN
+                content.chapterList[it].state = DOWN_RUN
                 mAdapter.notifyItemChanged(it)
                 val item = DownloadItem(
                     taskId, content.title, content.chapterList[it].title,
@@ -81,7 +93,7 @@ class DownloadBottomDialog(
                 dismiss()
             }
             tvDownloadAll.setOnClickListener {
-
+                Toast.makeText(ctx, "一个个点吧，这个没搞", Toast.LENGTH_SHORT).show()
             }
             tvCheckDownload.setOnClickListener {
                 dismiss()

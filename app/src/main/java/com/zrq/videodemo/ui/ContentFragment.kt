@@ -3,7 +3,6 @@ package com.zrq.videodemo.ui
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.zrq.videodemo.R
 import com.zrq.videodemo.adapter.ChapterAdapter
 import com.zrq.videodemo.bean.Chapter
 import com.zrq.videodemo.bean.Content
-import com.zrq.videodemo.bean.ContentData
 import com.zrq.videodemo.databinding.FragmentContentBinding
 import com.zrq.videodemo.db.bean.Love
 import com.zrq.videodemo.utils.Constants.BASE_URL
@@ -36,7 +34,6 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
     private lateinit var mAdapter: ChapterAdapter
     private var isLove = false
     private var downloadBottomDialog: DownloadBottomDialog? = null
-    private var contentCache: ContentData? = null
 
     override fun initData() {
         mAdapter = ChapterAdapter(requireContext(), list) {
@@ -48,58 +45,73 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
             recyclerView.adapter = mAdapter
         }
 
-        loadContent()
-        val queryAll = mainModel.db?.loveDao()?.queryAll()
-        Log.d(TAG, "queryAll: $queryAll")
-
+        if (mainModel.contentData?.chapterList == null) {
+            loadContent {
+                refreshUi()
+            }
+        } else {
+            refreshUi()
+        }
     }
 
-    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
-    private fun loadContent() {
-        val url = "$BASE_URL$CONTENT/${mainModel.videoId}"
-        HttpUtil.httpGet(url) { success, msg ->
-            if (success) {
-                val content = Gson().fromJson(msg, Content::class.java)
-                mainModel.contentData = content.data
-                Handler(Looper.getMainLooper()).post {
-                    mBinding.apply {
-                        if (isAdded) {
-                            Glide.with(requireActivity())
-                                .load(content.data.cover)
-                                .into(ivCover)
-                        }
-                        tvTitle.text = content.data.title
-                        mainModel.setSearchHintText("详情：" + content.data.title)
-                        tvDesc.text = "简述：" + content.data.descs.trim() +
-                                "\n导演：" + content.data.director +
-                                "\n演员：" + content.data.actor +
-                                "\n地区：" + content.data.region +
-                                "\n发布时间：" + content.data.releaseTime
-                        list.clear()
-                        contentCache = content.data
-                        checkList()
-                        mAdapter.notifyDataSetChanged()
+    @SuppressLint("NotifyDataSetChanged")
+    private fun refreshUi() {
+        Handler(Looper.getMainLooper()).post {
+            loadUi()
+            checkContentData()
+            list.clear()
+            mainModel.contentData?.let { list.addAll(it.chapterList) }
+            mAdapter.notifyDataSetChanged()
+        }
+    }
 
-                        mainModel.db?.loveDao()?.let { dao ->
-                            val loves = dao.queryAllByTitle(content.data.title)
-                            if (loves.size == 0) {
-                                isLove = false
-                                ivLove.setImageResource(R.drawable.ic_zhuifanshu)
-                            } else {
-                                isLove = true
-                                ivLove.setImageResource(R.drawable.ic_yizhuifan)
-                            }
-                            ivLove.visibility = View.VISIBLE
-                            btnDownload.visibility = View.VISIBLE
-                        }
+    @SuppressLint("SetTextI18n")
+    private fun loadUi() {
+        mainModel.contentData?.let { content ->
+            mBinding.apply {
+                if (isAdded) {
+                    Glide.with(requireActivity())
+                        .load(content.cover)
+                        .into(ivCover)
+                }
+                tvTitle.text = content.title
+                mainModel.setSearchHintText("详情：" + content.title)
+                tvDesc.text = "简述：" + content.descs.trim() +
+                        "\n导演：" + content.director +
+                        "\n演员：" + content.actor +
+                        "\n地区：" + content.region +
+                        "\n发布时间：" + content.releaseTime
+                mainModel.db?.loveDao()?.let { dao ->
+                    val loves = dao.queryAllByTitle(content.title)
+                    if (loves.size == 0) {
+                        isLove = false
+                        ivLove.setImageResource(R.drawable.ic_zhuifanshu)
+                    } else {
+                        isLove = true
+                        ivLove.setImageResource(R.drawable.ic_yizhuifan)
                     }
+                    ivLove.visibility = View.VISIBLE
+                    btnDownload.visibility = View.VISIBLE
                 }
             }
         }
     }
 
-    private fun checkList() {
-        contentCache?.let { data ->
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
+    private fun loadContent(callback: () -> Unit) {
+        val url = "$BASE_URL$CONTENT/${mainModel.videoId}"
+        HttpUtil.httpGet(url) { success, msg ->
+            if (success) {
+                val content = Gson().fromJson(msg, Content::class.java)
+                mainModel.contentData = content.data
+                callback()
+            }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun checkContentData() {
+        mainModel.contentData?.let { data ->
             mainModel.localVideo.forEach { local ->
                 if (local.title == data.title) {
                     data.chapterList.forEach {
@@ -119,13 +131,17 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
                     }
                 }
             }
-            list.addAll(data.chapterList)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        checkList()
+        refreshUi()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainModel.contentData = null
     }
 
     override fun initEvent() {
@@ -151,8 +167,7 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
             if (downloadBottomDialog == null) {
                 mainModel.contentData?.let {
                     downloadBottomDialog = DownloadBottomDialog(requireContext(), requireActivity(), mainModel, it) {
-                        Log.d(TAG, "dismiss: ")
-                        checkList()
+                        refreshUi()
                     }
                 }
             }

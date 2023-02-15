@@ -47,7 +47,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override fun initEvent() {
         mBinding.apply {
-
             tvText.setOnClickListener { loadTextByTime() }
             tvSearch.setOnClickListener {
                 if (etSearch.text.toString() == "") {
@@ -68,7 +67,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
                 false
             }
+            ivSetting.setOnClickListener {
 
+            }
         }
     }
 

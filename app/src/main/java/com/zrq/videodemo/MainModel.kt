@@ -20,7 +20,6 @@ class MainModel : ViewModel() {
     var setSearchText: (String) -> Unit = {}
     var clearBottomFocus: () -> Unit = {}
     val localVideo = mutableListOf<DownloadItem>()
-    val whereComeToPlayer = PAGE_CONTENT
 
     init {
     }

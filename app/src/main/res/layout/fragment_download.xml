@@ -79,9 +79,9 @@
                     android:id="@+id/tvDownloadInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:lines="3"
+                    android:paddingHorizontal="10dp"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
         </LinearLayout>
