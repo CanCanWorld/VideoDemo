@@ -3,15 +3,14 @@ package com.zrq.videodemo.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zrq.videodemo.R
 import com.zrq.videodemo.bean.Download
 import com.zrq.videodemo.databinding.ItemDownloadingBinding
 import com.zrq.videodemo.utils.Constants.DOWN_FAIL
-import com.zrq.videodemo.utils.Constants.DOWN_COMPLETE
 import com.zrq.videodemo.utils.Constants.DOWN_PRE
 import com.zrq.videodemo.utils.Constants.DOWN_RUN
 import com.zrq.videodemo.utils.Constants.DOWN_STOP
@@ -19,7 +18,8 @@ import com.zrq.videodemo.utils.Constants.DOWN_STOP
 class DownloadingAdapter(
     private val context: Context,
     private val list: MutableList<Download>,
-    private val onItemClickListener: (Int) -> Unit
+    private val onItemClickListener: (Int) -> Unit,
+    private val onItemSelectListener: (Int, Boolean) -> Unit,
 ) : RecyclerView.Adapter<VH<ItemDownloadingBinding>>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH<ItemDownloadingBinding> {
         return VH(ItemDownloadingBinding.inflate(LayoutInflater.from(context), parent, false))
@@ -57,7 +57,22 @@ class DownloadingAdapter(
                 }
             }
             progressbar.progress = data.percent
-            root.setOnClickListener { onItemClickListener(position) }
+            radioBtn.isChecked = list[position].isSelect
+            val select = list[position].isEdit
+            if (select) {
+                radioBtn.visibility = View.VISIBLE
+                selectBtn.visibility = View.VISIBLE
+            } else {
+                radioBtn.visibility = View.GONE
+                selectBtn.visibility = View.GONE
+            }
+            selectBtn.setOnClickListener { radioBtn.isChecked = !radioBtn.isChecked }
+            radioBtn.setOnCheckedChangeListener { _, isChecked ->
+                onItemSelectListener(position, isChecked)
+            }
+            llRoot.setOnClickListener {
+                onItemClickListener(position)
+            }
         }
     }
 

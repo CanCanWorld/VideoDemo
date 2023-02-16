@@ -8,5 +8,6 @@ import com.zrq.videodemo.utils.Constants
 data class Download(
     val downloadItem: DownloadItem,
     var state: Int = Constants.DOWN_STOP,
+    var isEdit: Boolean = false,
     var isSelect: Boolean = false
 )

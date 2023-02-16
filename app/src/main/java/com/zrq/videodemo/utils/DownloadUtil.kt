@@ -56,6 +56,10 @@ object DownloadUtil {
         Aria.download(ctx).load(taskId).stop()
     }
 
+    fun delete(ctx: Context, taskId: Long) {
+        Aria.download(ctx).load(taskId).removeRecord()
+    }
+
 
     @Download.onWait
     fun onWait(task: DownloadTask) {

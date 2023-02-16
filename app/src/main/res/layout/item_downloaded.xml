@@ -12,7 +12,7 @@
         android:scaleType="centerCrop"
         android:src="@color/grey"
         android:layout_height="80dp"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="20dp"
         app:shapeAppearance="@style/circle_img_10" />
 
     <RelativeLayout

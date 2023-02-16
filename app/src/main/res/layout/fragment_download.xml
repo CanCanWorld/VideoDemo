@@ -70,6 +70,7 @@
             android:src="@drawable/ic_gengduo" />
 
         <LinearLayout
+            android:paddingHorizontal="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvDownload"
