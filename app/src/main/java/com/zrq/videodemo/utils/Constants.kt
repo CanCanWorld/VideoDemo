@@ -25,6 +25,7 @@ object Constants {
     const val PAGE_PLAYER = "PLAYER"
     const val PAGE_DOWNLOADED = "DOWNLOADED"
     const val PAGE_DOWNLOADING = "DOWNLOADING"
+    const val PAGE_SETTING = "SETTING"
 
     const val DOWN_NON = 0
     const val DOWN_FAIL = -1

@@ -8,12 +8,15 @@
     tools:context=".ui.ContentFragment">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
+        android:visibility="gone"
         app:cardCornerRadius="20dp"
-        app:cardElevation="6dp">
+        app:cardElevation="6dp"
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"

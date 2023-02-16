@@ -55,4 +55,9 @@
         android:name="com.zrq.videodemo.ui.DownloadingFragment"
         android:label="fragment_downloading"
         tools:layout="@layout/fragment_downloading" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.zrq.videodemo.ui.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 </navigation>

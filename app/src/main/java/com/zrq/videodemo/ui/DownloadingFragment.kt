@@ -26,6 +26,7 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
     private lateinit var mAdapter: DownloadingAdapter
     private val list = mutableListOf<Download>()
     private val downloadListener = DownloadListener()
+    private var isEdit = false
 
     override fun initData() {
         mainModel.db?.downloadDao()?.let {
@@ -59,6 +60,15 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
             ivBack.setOnClickListener {
                 Navigation.findNavController(requireActivity(), R.id.fragment_container)
                     .popBackStack()
+            }
+            tvEdit.setOnClickListener {
+                if (isEdit) {
+                    list.forEach { it.isSelect = false }
+                } else {
+                    list.forEach { it.isSelect = true }
+                }
+                isEdit = !isEdit
+                mAdapter.notifyDataSetChanged()
             }
         }
         downloadListener.onRun = { task ->

@@ -1,7 +1,6 @@
 package com.zrq.videodemo.ui
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.zrq.videodemo.bean.ContentData
 import com.zrq.videodemo.databinding.FragmentDownloadBinding
 import com.zrq.videodemo.db.bean.DownloadItem
 import com.zrq.videodemo.utils.Constants.PAGE_DOWNLOADED
-import com.zrq.videodemo.utils.OtherUtils
 
 class DownloadFragment : BaseFragment<FragmentDownloadBinding>() {
     override fun providedViewBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentDownloadBinding {

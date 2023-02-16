@@ -10,6 +10,7 @@ import com.zrq.videodemo.bean.ContentData
 import com.zrq.videodemo.databinding.FragmentPlayerBinding
 import com.zrq.videodemo.db.bean.Message
 import com.zrq.videodemo.utils.Constants.PAGE_PLAYER
+import com.zrq.videodemo.utils.OtherUtils
 import com.zrq.videodemo.view.MyPrepareView
 import com.zrq.videodemo.view.MyStandardVideoController
 import xyz.doikki.videocontroller.component.*
@@ -83,29 +84,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 dao.queryAllByTitle(it.title)
                     .asReversed()
                     .forEach { msg ->
-                        val sdfYear = SimpleDateFormat("yyyy", Locale.CHINA)
-                        val that = SimpleDateFormat("yyyyMMdd", Locale.CHINA).format(msg.currentTime).toLong()
-                        val nowDay = SimpleDateFormat("yyyyMMdd", Locale.CHINA).format(Date()).toLong()
-                        if (sdfYear.format(msg.currentTime) == sdfYear.format(Date().time)) {
-                            val string = when (nowDay - that) {
-                                0L -> "今天"
-                                1L -> "昨天"
-                                2L -> "前天"
-                                else -> SimpleDateFormat("MM月dd日", Locale.CHINA).format(msg.currentTime)
-                            }
-                            recordList.add(
-                                string + SimpleDateFormat(" HH时mm分", Locale.CHINA).format(msg.currentTime) +
-                                        "观看了《" +
-                                        msg.title + "》" +
-                                        msg.chapter
-                            )
-                        } else
-                            recordList.add(
-                                SimpleDateFormat("yyyy年MM月dd日 HH时mm分", Locale.CHINA).format(msg.currentTime) +
-                                        "观看了《" +
-                                        msg.title + "》" +
-                                        msg.chapter
-                            )
+                        recordList.add(OtherUtils.messageToString(msg))
                     }
                 recordAdapter.notifyDataSetChanged()
             }

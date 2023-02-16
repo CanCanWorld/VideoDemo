@@ -24,4 +24,7 @@ interface MessageDao {
     @Delete
     fun delete(msg: Message)
 
+    @Query("Delete from message")
+    fun removeAll()
+
 }

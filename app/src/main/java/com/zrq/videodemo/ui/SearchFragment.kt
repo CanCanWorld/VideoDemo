@@ -68,7 +68,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 false
             }
             ivSetting.setOnClickListener {
-
+                Navigation.findNavController(requireActivity(), R.id.fragment_container)
+                    .navigate(R.id.settingFragment)
             }
         }
     }

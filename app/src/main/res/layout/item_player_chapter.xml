@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/shape_item_chapter"
-    android:foreground="@drawable/pressed_background_pink">
+    android:foreground="@drawable/pressed_background_main_color">
 
     <TextView
         android:id="@+id/tvTitle"

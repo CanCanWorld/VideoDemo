@@ -92,6 +92,7 @@ class ContentFragment : BaseFragment<FragmentContentBinding>() {
                     }
                     ivLove.visibility = View.VISIBLE
                     btnDownload.visibility = View.VISIBLE
+                    cardView.visibility = View.VISIBLE
                 }
             }
         }

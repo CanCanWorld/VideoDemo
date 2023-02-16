@@ -17,6 +17,8 @@ import com.arialyy.aria.core.Aria
 import com.tencent.mmkv.MMKV
 import com.zrq.videodemo.databinding.ActivityMainBinding
 import com.zrq.videodemo.db.DbController
+import com.zrq.videodemo.utils.Constants.PAGE_DOWNLOADED
+import com.zrq.videodemo.utils.Constants.PAGE_DOWNLOADING
 import com.zrq.videodemo.utils.Constants.PAGE_SEARCH
 import com.zrq.videodemo.utils.OtherUtils
 import com.zrq.videodemo.utils.StatusBarUtil
@@ -90,6 +92,10 @@ class MainActivity : AppCompatActivity() {
                 onBackPressed()
             }
             ivDownload.setOnClickListener {
+                if (mainModel.nowPage == PAGE_DOWNLOADED || mainModel.nowPage == PAGE_DOWNLOADING) {
+                    Toast.makeText(that, "当前正在下载页", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
                 Navigation.findNavController(that, R.id.fragment_container)
                     .navigate(R.id.downloadFragment)
             }

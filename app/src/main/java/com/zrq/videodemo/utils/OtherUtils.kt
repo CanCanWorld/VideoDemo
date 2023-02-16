@@ -6,7 +6,10 @@ import android.util.DisplayMetrics
 import android.util.Log
 import com.zrq.videodemo.MainModel
 import com.zrq.videodemo.db.bean.DownloadItem
+import com.zrq.videodemo.db.bean.Message
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 object OtherUtils {
 
@@ -48,6 +51,24 @@ object OtherUtils {
             }
         }
         return list
+    }
+
+    fun messageToString(msg: Message): String {
+        val sdfYear = SimpleDateFormat("yyyy", Locale.CHINA)
+        val that = SimpleDateFormat("yyyyMMdd", Locale.CHINA).format(msg.currentTime).toLong()
+        val nowDay = SimpleDateFormat("yyyyMMdd", Locale.CHINA).format(Date()).toLong()
+        if (sdfYear.format(msg.currentTime) == sdfYear.format(Date().time)) {
+            val string = when (nowDay - that) {
+                0L -> "今天"
+                1L -> "昨天"
+                2L -> "前天"
+                else -> SimpleDateFormat("MM月dd日", Locale.CHINA).format(msg.currentTime)
+            }
+            return string + SimpleDateFormat(" HH时mm分", Locale.CHINA).format(msg.currentTime) +
+                    "观看了《" + msg.title + "》" + msg.chapter
+        } else
+            return SimpleDateFormat("yyyy年MM月dd日 HH时mm分", Locale.CHINA).format(msg.currentTime) +
+                    "观看了《" + msg.title + "》" + msg.chapter
     }
 
 }
