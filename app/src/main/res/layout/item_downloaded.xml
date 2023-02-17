@@ -1,42 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginVertical="10dp"
     android:layout_height="wrap_content"
+    android:padding="10dp"
     android:orientation="horizontal">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivCover"
-        android:layout_width="140dp"
-        android:scaleType="centerCrop"
-        android:src="@color/grey"
-        android:layout_height="80dp"
-        android:layout_marginHorizontal="20dp"
-        app:shapeAppearance="@style/circle_img_10" />
-
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/llRoot"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:textStyle="bold"
+        <CheckBox
+            android:id="@+id/radioBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines="1"
-            android:layout_marginVertical="10dp"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:buttonTint="?attr/mainColor"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/tvChapter"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCover"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:scaleType="centerCrop"
+            android:src="@color/grey"
+            app:shapeAppearance="@style/circle_img_5" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvTitle"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textColor="@color/grey_"
-            android:textSize="14sp" />
-    </RelativeLayout>
-</LinearLayout>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:lines="1"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvChapter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvTitle"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/grey_"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/selectBtn"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/transparent"
+        android:visibility="gone"
+        tools:visibility="visible" />
+</RelativeLayout>

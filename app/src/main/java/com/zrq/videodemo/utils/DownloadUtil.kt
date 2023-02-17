@@ -13,6 +13,7 @@ import java.io.File
 object DownloadUtil {
 
     private val listeners = mutableListOf<DownloadListener>()
+    private val option: M3U8VodOption
 
     fun addListener(listener: DownloadListener) {
         listeners.add(listener)
@@ -24,6 +25,13 @@ object DownloadUtil {
 
     init {
         Aria.download(this).register()  //注册aria
+
+        option = M3U8VodOption().apply {
+            setUseDefConvert(false)
+            setBandWidthUrlConverter(MyConvert.MyBandWidthDefConverter())
+            setVodTsUrlConvert(MyConvert.TSConvert())
+            merge(true)
+        }
     }
 
     fun downloadOne(ctx: Context, dirName: String, fileName: String, m3u8: String, cover: String = ""): Long {
@@ -35,12 +43,6 @@ object DownloadUtil {
             dir.mkdir()
         }
         Log.d(TAG, "path: $filePath")
-        val option = M3U8VodOption().apply {
-            setUseDefConvert(false)
-            setBandWidthUrlConverter(MyConvert.MyBandWidthDefConverter())
-            setVodTsUrlConvert(MyConvert.TSConvert())
-            merge(true)
-        }
         return Aria.download(ctx)
             .load(m3u8)
             .setFilePath(filePath)
@@ -48,8 +50,8 @@ object DownloadUtil {
             .create()
     }
 
-    fun start(ctx: Context, taskId: Long) {
-        Aria.download(ctx).load(taskId).reStart()
+    fun resume(ctx: Context, taskId: Long) {
+        Aria.download(ctx).load(taskId).resume()
     }
 
     fun pause(ctx: Context, taskId: Long) {

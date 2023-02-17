@@ -1,5 +1,6 @@
 package com.zrq.videodemo.ui
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -10,6 +11,7 @@ import com.zrq.videodemo.utils.Constants.PAGE_SETTING
 import com.zrq.videodemo.utils.OtherUtils
 import com.zrq.videodemo.view.EnsureDialog
 import com.zrq.videodemo.view.HistoryDialog
+import com.zrq.videodemo.view.ThemeDialog
 
 class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     override fun providedViewBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentSettingBinding {
@@ -17,6 +19,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     }
 
     private var historyDialog: HistoryDialog? = null
+    private var themeDialog: ThemeDialog? = null
     private var ensureDialog: EnsureDialog? = null
     private var list = mutableListOf<String>()
 
@@ -50,6 +53,18 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                         }
                     }
                 ensureDialog!!.show()
+            }
+            llTheme.setOnClickListener {
+                if (themeDialog == null) {
+                    themeDialog = ThemeDialog(requireContext(), requireActivity()) {
+                        requireActivity().apply {
+                            finish()
+                            startActivity(intent.apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK })
+                            overridePendingTransition(0, 0)
+                        }
+                    }
+                    themeDialog!!.show()
+                }
             }
         }
     }

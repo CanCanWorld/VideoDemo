@@ -52,6 +52,10 @@ object OtherUtils {
         }
         return list
     }
+    fun deleteFile(path: String){
+        val file = File(path)
+        file.delete()
+    }
 
     fun messageToString(msg: Message): String {
         val sdfYear = SimpleDateFormat("yyyy", Locale.CHINA)

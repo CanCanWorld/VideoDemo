@@ -37,16 +37,19 @@
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/drawable/shape_item_chapter.xml" value="0.163" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/drawable/shape_search.xml" value="0.15" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/dialog_theme.xml" value="0.48867753623188404" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/fragment_content.xml" value="0.25" />
-        <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/fragment_download.xml" value="0.2079533941236069" />
-        <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/fragment_downloading.xml" value="0.25" />
+        <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/fragment_download.xml" value="0.25" />
+        <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/fragment_downloading.xml" value="0.2" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/fragment_player.xml" value="0.22" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/fragment_result.xml" value="0.25" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/fragment_search.xml" value="0.16" />
+        <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/fragment_setting.xml" value="0.23860182370820668" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/item_chapter.xml" value="0.4276041666666667" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/item_download.xml" value="0.4583333333333333" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/item_download_all.xml" value="0.4583333333333333" />
-        <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/item_downloaded.xml" value="0.23404255319148937" />
+        <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/item_downloaded.xml" value="0.2" />
+        <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/item_downloading.xml" value="0.23860182370820668" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/item_player_chapter.xml" value="0.2" />
         <entry key="..\:/Users/smq/AndroidStudioProjects/VideoDemo/app/src/main/res/layout/item_result.xml" value="0.25" />
       </map>

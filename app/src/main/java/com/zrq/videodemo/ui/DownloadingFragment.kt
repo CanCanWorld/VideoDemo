@@ -1,6 +1,8 @@
 package com.zrq.videodemo.ui
 
 import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +17,7 @@ import com.zrq.videodemo.utils.Constants.DOWN_FAIL
 import com.zrq.videodemo.utils.Constants.DOWN_PRE
 import com.zrq.videodemo.utils.Constants.DOWN_RUN
 import com.zrq.videodemo.utils.Constants.DOWN_STOP
+import com.zrq.videodemo.utils.Constants.DOWN_WAIT
 import com.zrq.videodemo.utils.Constants.PAGE_DOWNLOADING
 import com.zrq.videodemo.utils.DownloadListener
 import com.zrq.videodemo.utils.DownloadUtil
@@ -48,31 +51,33 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
                     DownloadUtil.pause(requireContext(), item.taskId)
                     list[it].state = DOWN_STOP
                 }
-                DOWN_STOP -> {
-                    DownloadUtil.downloadOne(requireContext(), item.title, item.chapterTitle, item.chapterPath)
+                else -> {
+                    DownloadUtil.resume(requireContext(), item.taskId)
                     list[it].state = DOWN_RUN
                 }
             }
         }, { pos, isSelect ->
             mBinding.apply {
-                list[pos].isSelect = isSelect
-                if (isSelect) {
-                    if (!selectList.contains(list[pos]))
-                        selectList.add(list[pos])
-                } else {
-                    selectList.remove(list[pos])
+                if (list.size > pos) {
+                    list[pos].isSelect = isSelect
+                    if (isSelect) {
+                        if (!selectList.contains(list[pos]))
+                            selectList.add(list[pos])
+                    } else {
+                        selectList.remove(list[pos])
+                    }
+                    if (selectList.size == 0) {
+                        tvDelete.text = "删除"
+                        tvDelete.isEnabled = false
+                        tvDelete.setTextColor(requireActivity().resources.getColor(R.color.grey__))
+                    } else {
+                        tvDelete.text = "删除(${selectList.size})"
+                        tvDelete.isEnabled = true
+                        tvDelete.setTextColor(requireActivity().resources.getColor(R.color.pink))
+                    }
+                    Log.d(TAG, "initData: ${selectList.size}-->${list.size}")
+                    checkbox.isChecked = selectList.size == list.size
                 }
-                if (selectList.size == 0) {
-                    tvDelete.text = "删除"
-                    tvDelete.isEnabled = false
-                    tvDelete.setTextColor(requireActivity().resources.getColor(R.color.grey__))
-                } else {
-                    tvDelete.text = "删除(${selectList.size})"
-                    tvDelete.isEnabled = true
-                    tvDelete.setTextColor(requireActivity().resources.getColor(R.color.pink))
-                }
-                Log.d(TAG, "initData: ${selectList.size}-->${list.size}")
-                checkbox.isChecked = selectList.size == list.size
             }
         })
         mBinding.apply {
@@ -120,6 +125,15 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
                     it.isSelect = checkbox.isChecked
                 }
                 mAdapter.notifyDataSetChanged()
+            }
+        }
+        downloadListener.onWait = { task ->
+            list.forEach {
+                it.downloadItem.apply {
+                    if (taskId == task.entity.id) {
+                        it.state = DOWN_WAIT
+                    }
+                }
             }
         }
         downloadListener.onRun = { task ->
@@ -175,11 +189,12 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
             mAdapter.notifyDataSetChanged()
         }
         downloadListener.onComplete = { task ->
+            var download: Download? = null
             list.forEach {
                 it.downloadItem.apply {
                     if (taskId == task.entity.id) {
                         mainModel.db?.downloadDao()?.delete(this)
-                        list.remove(it)
+                        download = it
 
                         val downloadingFiles = mainModel.db?.downloadDao()?.queryAll() ?: mutableListOf()
                         downloadingFiles.forEach {
@@ -188,6 +203,7 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
                     }
                 }
             }
+            download?.let { list.remove(download) }
             mAdapter.notifyDataSetChanged()
         }
         DownloadUtil.addListener(downloadListener)

@@ -49,13 +49,15 @@ class MainActivity : AppCompatActivity() {
         )
         Aria.init(this)
 
-        val listFiles = OtherUtils.listFiles(this)
-        val downloadingFiles = mainModel.db?.downloadDao()?.queryAll() ?: mutableListOf()
-        downloadingFiles.forEach {
-            listFiles.removeIf { f -> f.title == it.title && f.chapterTitle == it.chapterTitle }
+        mainModel.reloadLocalVideo = {
+            val listFiles = OtherUtils.listFiles(this)
+            val downloadingFiles = mainModel.db?.downloadDao()?.queryAll() ?: mutableListOf()
+            downloadingFiles.forEach {
+                listFiles.removeIf { f -> f.title == it.title && f.chapterTitle == it.chapterTitle }
+            }
+            mainModel.localVideo.clear()
+            mainModel.localVideo.addAll(listFiles)
         }
-        mainModel.localVideo.clear()
-        mainModel.localVideo.addAll(listFiles)
     }
 
     private fun initDB() {

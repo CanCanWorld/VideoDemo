@@ -14,6 +14,7 @@ import com.zrq.videodemo.utils.Constants.DOWN_FAIL
 import com.zrq.videodemo.utils.Constants.DOWN_PRE
 import com.zrq.videodemo.utils.Constants.DOWN_RUN
 import com.zrq.videodemo.utils.Constants.DOWN_STOP
+import com.zrq.videodemo.utils.Constants.DOWN_WAIT
 
 class DownloadingAdapter(
     private val context: Context,
@@ -49,6 +50,10 @@ class DownloadingAdapter(
                 }
                 DOWN_STOP -> {
                     tvDownloadInfo.text = "下载暂停"
+                    tvDownloadInfo.setTextColor(context.resources.getColor(R.color.grey_))
+                }
+                DOWN_WAIT -> {
+                    tvDownloadInfo.text = "等待其他"
                     tvDownloadInfo.setTextColor(context.resources.getColor(R.color.grey_))
                 }
                 else -> {

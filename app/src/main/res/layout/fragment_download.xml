@@ -70,7 +70,6 @@
             android:src="@drawable/ic_gengduo" />
 
         <LinearLayout
-            android:paddingHorizontal="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvDownload"
@@ -78,17 +77,20 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content">
 
                 <View
-                    android:layout_width="110dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginHorizontal="20dp"
                     android:layout_height="20dp"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/shape_circle_5" />
 
                 <View
-                    android:layout_width="125dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_height="20dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="3dp"
@@ -96,7 +98,7 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivCover"
-                    android:layout_width="140dp"
+                    android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="centerCrop"
@@ -147,8 +149,39 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_downloaded" />
+    <RelativeLayout
+        android:id="@+id/rlEdit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:buttonTint="?mainColor"
+            android:text="@string/all_select" />
+
+        <TextView
+            android:id="@+id/tvDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:enabled="false"
+            android:padding="10dp"
+            android:text="@string/delete"
+            android:textColor="@color/grey__"
+            android:textSize="14sp" />
+    </RelativeLayout>
 
 </LinearLayout>

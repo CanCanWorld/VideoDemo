@@ -33,4 +33,5 @@ object Constants {
     const val DOWN_COMPLETE = 2
     const val DOWN_STOP = 3
     const val DOWN_PRE = 4
+    const val DOWN_WAIT = 5
 }
