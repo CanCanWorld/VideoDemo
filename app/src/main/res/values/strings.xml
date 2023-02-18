@@ -24,4 +24,10 @@
     <string name="all_select">全选</string>
     <string name="delete">删除</string>
     <string name="change_theme">修改主题颜色</string>
+    <string name="pink">少女粉</string>
+    <string name="red">高能红</string>
+    <string name="yellow">咸蛋黄</string>
+    <string name="green">早苗绿</string>
+    <string name="purple">基佬紫</string>
+    <string name="blue">宝石蓝</string>
 </resources>

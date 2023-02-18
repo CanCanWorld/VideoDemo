@@ -14,16 +14,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="green">#8BC24B</color>
-    <color name="_green">#CD8BC24B</color>
+    <color name="green_">#9F8BC24B</color>
     <color name="red">#F44336</color>
-    <color name="red_">#CDF44336</color>
+    <color name="red_">#9FF44336</color>
     <color name="pink">#FA7296</color>
-    <color name="pink_">#CDFA7296</color>
+    <color name="pink_">#9FFA7296</color>
     <color name="yellow">#FCC00A</color>
-    <color name="yellow_">#CDFCC00A</color>
+    <color name="yellow_">#9FFCC00A</color>
     <color name="blue">#2095F4</color>
-    <color name="blue_">#CD2095F4</color>
+    <color name="blue_">#9F2095F4</color>
     <color name="purple">#9A28B1</color>
-    <color name="purple_">#CD9A28B1</color>
+    <color name="purple_">#9F9A28B1</color>
 
 </resources>

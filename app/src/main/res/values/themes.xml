@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.VideoDemo" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+    <style name="Theme.Pink" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/pink</item>
         <item name="colorPrimaryVariant">@color/pink</item>
@@ -17,18 +17,84 @@
     </style>
 
 
-    <style name="SingleDialog" parent="android:Theme.Material.Light.Dialog.Alert">
-        <!-- 背景颜色及透明程度 -->
-        <!--        <item name="android:windowBackground">@color/white</item>-->
-        <!-- 是否半透明 -->
-        <item name="android:windowIsTranslucent">false</item>
-        <!-- 是否没有标题 -->
-        <item name="android:windowNoTitle">true</item>
-        <!-- 是否浮现在activity之上 -->
-        <item name="android:windowIsFloating">true</item>
-        <!-- 是否背景模糊 -->
-        <item name="android:backgroundDimEnabled">true</item>
-        <!-- 设置背景模糊的透明度-->
-        <item name="android:backgroundDimAmount">0.5</item>
+    <style name="Theme.Red" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryVariant">@color/red</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/red</item>
+        <item name="colorSecondaryVariant">@color/red</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/red</item>
+        <!-- Customize your theme here. -->
+        <item name="mainColor">@color/red</item>
+        <item name="mainColorBg">@color/red_</item>
     </style>
+
+    <style name="Theme.Green" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/green</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/green</item>
+        <item name="colorSecondaryVariant">@color/green</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/green</item>
+        <!-- Customize your theme here. -->
+        <item name="mainColor">@color/green</item>
+        <item name="mainColorBg">@color/green_</item>
+    </style>
+
+    <style name="Theme.Yellow" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/yellow</item>
+        <item name="colorPrimaryVariant">@color/yellow</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/yellow</item>
+        <item name="colorSecondaryVariant">@color/yellow</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/yellow</item>
+        <!-- Customize your theme here. -->
+        <item name="mainColor">@color/yellow</item>
+        <item name="mainColorBg">@color/yellow_</item>
+    </style>
+
+    <style name="Theme.Blue" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue</item>
+        <item name="colorSecondaryVariant">@color/blue</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/blue</item>
+        <!-- Customize your theme here. -->
+        <item name="mainColor">@color/blue</item>
+        <item name="mainColorBg">@color/blue_</item>
+    </style>
+
+    <style name="Theme.Purple" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">@color/purple</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/purple</item>
+        <item name="colorSecondaryVariant">@color/purple</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/purple</item>
+        <!-- Customize your theme here. -->
+        <item name="mainColor">@color/purple</item>
+        <item name="mainColorBg">@color/purple_</item>
+    </style>
+
 </resources>

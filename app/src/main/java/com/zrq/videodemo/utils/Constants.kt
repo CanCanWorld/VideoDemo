@@ -34,4 +34,12 @@ object Constants {
     const val DOWN_STOP = 3
     const val DOWN_PRE = 4
     const val DOWN_WAIT = 5
+
+    const val THEME_TYPE = "theme_type"
+    const val THEME_RED = "red"
+    const val THEME_PINK = "pink"
+    const val THEME_PURPLE = "purple"
+    const val THEME_BLUE = "blue"
+    const val THEME_GREEN = "green"
+    const val THEME_YELLOW = "yellow"
 }

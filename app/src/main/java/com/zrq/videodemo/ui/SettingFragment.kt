@@ -63,8 +63,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                             overridePendingTransition(0, 0)
                         }
                     }
-                    themeDialog!!.show()
                 }
+                themeDialog!!.show()
             }
         }
     }

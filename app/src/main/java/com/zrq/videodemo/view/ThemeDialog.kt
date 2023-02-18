@@ -9,11 +9,18 @@ import android.view.LayoutInflater
 import com.tencent.mmkv.MMKV
 import com.zrq.videodemo.R
 import com.zrq.videodemo.databinding.DialogThemeBinding
+import com.zrq.videodemo.utils.Constants.THEME_BLUE
+import com.zrq.videodemo.utils.Constants.THEME_GREEN
+import com.zrq.videodemo.utils.Constants.THEME_PINK
+import com.zrq.videodemo.utils.Constants.THEME_PURPLE
+import com.zrq.videodemo.utils.Constants.THEME_RED
+import com.zrq.videodemo.utils.Constants.THEME_TYPE
+import com.zrq.videodemo.utils.Constants.THEME_YELLOW
 
 class ThemeDialog(
     context: Context,
     private val activity: Activity,
-    private val onThemeChangeCallback: ()-> Unit
+    private val onThemeChangeCallback: () -> Unit
 ) : Dialog(context, R.style.SingleDialog) {
 
     private lateinit var mBinding: DialogThemeBinding
@@ -29,7 +36,7 @@ class ThemeDialog(
         if (window != null) {
             val lp = window?.attributes
             if (lp != null) {
-                lp.width = display.width * 4 / 5
+                lp.width = display.width * 3 / 4
                 window!!.attributes = lp
                 setCanceledOnTouchOutside(true)
             }
@@ -41,31 +48,27 @@ class ThemeDialog(
     private fun initEvent() {
         mBinding.apply {
             rbPink.setOnClickListener {
-                MMKV.defaultMMKV().encode("theme_type", "pink")
+                MMKV.defaultMMKV().encode(THEME_TYPE, THEME_PINK)
                 onThemeChangeCallback()
             }
             rbRed.setOnClickListener {
-                MMKV.defaultMMKV().encode("theme_type", "red")
+                MMKV.defaultMMKV().encode(THEME_TYPE, THEME_RED)
                 onThemeChangeCallback()
             }
             rbPurple.setOnClickListener {
-                MMKV.defaultMMKV().encode("theme_type", "purple")
+                MMKV.defaultMMKV().encode(THEME_TYPE, THEME_PURPLE)
                 onThemeChangeCallback()
             }
-            rbTeal.setOnClickListener {
-                MMKV.defaultMMKV().encode("theme_type", "teal")
+            rbGreen.setOnClickListener {
+                MMKV.defaultMMKV().encode(THEME_TYPE, THEME_GREEN)
                 onThemeChangeCallback()
             }
-            rbGold.setOnClickListener {
-                MMKV.defaultMMKV().encode("theme_type", "gold")
+            rbYellow.setOnClickListener {
+                MMKV.defaultMMKV().encode(THEME_TYPE, THEME_YELLOW)
                 onThemeChangeCallback()
             }
-            rbGrey.setOnClickListener {
-                MMKV.defaultMMKV().encode("theme_type", "grey")
-                onThemeChangeCallback()
-            }
-            rbBlank.setOnClickListener {
-                MMKV.defaultMMKV().encode("theme_type", "black")
+            rbBlue.setOnClickListener {
+                MMKV.defaultMMKV().encode(THEME_TYPE, THEME_BLUE)
                 onThemeChangeCallback()
             }
         }
@@ -73,24 +76,24 @@ class ThemeDialog(
 
     override fun show() {
         super.show()
-        when (MMKV.defaultMMKV().decodeString("theme_type", "pink")) {
-            "pink" -> {
+        when (MMKV.defaultMMKV().decodeString(THEME_TYPE, THEME_PINK)) {
+            THEME_PINK -> {
                 mBinding.rbPink.isChecked = true
             }
-            "red" -> {
+            THEME_RED -> {
                 mBinding.rbRed.isChecked = true
             }
-            "purple" -> {
+            THEME_PURPLE -> {
                 mBinding.rbPurple.isChecked = true
             }
-            "teal" -> {
-                mBinding.rbTeal.isChecked = true
+            THEME_GREEN -> {
+                mBinding.rbGreen.isChecked = true
             }
-            "grey" -> {
-                mBinding.rbGrey.isChecked = true
+            THEME_YELLOW -> {
+                mBinding.rbYellow.isChecked = true
             }
-            "black" -> {
-                mBinding.rbBlank.isChecked = true
+            THEME_BLUE -> {
+                mBinding.rbBlue.isChecked = true
             }
             else -> {}
         }

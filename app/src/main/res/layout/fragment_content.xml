@@ -60,7 +60,7 @@
                         android:padding="10dp"
                         android:src="@drawable/ic_zhuifanshu"
                         android:visibility="gone"
-                        app:tint="@color/red"
+                        app:tint="?mainColor"
                         tools:visibility="visible" />
                 </LinearLayout>
 
