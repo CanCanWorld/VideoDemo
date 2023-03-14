@@ -1,7 +1,9 @@
 package com.zrq.videodemo.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.ViewGroup
 import com.zrq.videodemo.adapter.PlayerChapterAdapter
 import com.zrq.videodemo.adapter.RecordAdapter
@@ -28,6 +30,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     private val recordList = mutableListOf<String>()
     private var isAutoPause = false
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initData() {
 
         chapterAdapter = PlayerChapterAdapter(requireContext(), chapterList) {
@@ -55,6 +58,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
             controller.addControlComponent(VodControlView(requireContext()))
             controller.addControlComponent(GestureView(requireContext()))
             controller.setCanChangePosition(true)
+
+            videoView.setOnLongClickListener {
+                Log.d(TAG, "onLongClick")
+                videoView.speed = 1.5f
+                true
+            }
 
             videoView.setVideoController(controller)
             videoView.start()

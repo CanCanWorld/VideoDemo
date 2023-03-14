@@ -35,7 +35,7 @@ import xyz.doikki.videoplayer.util.PlayerUtils;
  * Created by Doikki on 2017/4/7.
  */
 
-public class MyStandardVideoController extends GestureVideoController implements View.OnClickListener {
+public class MyStandardVideoController extends MyGestureVideoController implements View.OnClickListener {
 
     protected ImageView mLockButton;
 
