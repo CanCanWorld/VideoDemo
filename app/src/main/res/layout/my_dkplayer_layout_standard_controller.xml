@@ -4,6 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_speed"
+        android:padding="14dp"
+        android:layout_marginTop="40dp"
+        android:text="倍速播放中"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:id="@+id/tvSpeed"
+        tools:visibility="visible" />
     <ImageView
         android:id="@+id/lock"
         android:layout_width="40dp"

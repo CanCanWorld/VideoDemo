@@ -298,6 +298,7 @@ public abstract class MyGestureVideoController extends BaseVideoController imple
                         mSeekPosition = -1;
                     }
                     if (mIsLongPress) {
+                        onLongClick(false);
                         mControlWrapper.setSpeed(1f);
                         mIsLongPress = false;
                     }
@@ -328,9 +329,9 @@ public abstract class MyGestureVideoController extends BaseVideoController imple
 
     @Override
     public void onLongPress(MotionEvent e) {
+        onLongClick(true);
         mIsLongPress = true;
         mControlWrapper.setSpeed(1.5f);
-        Log.d(TAG, "onLongPress: ");
     }
 
     @Override
@@ -348,4 +349,7 @@ public abstract class MyGestureVideoController extends BaseVideoController imple
     public boolean onSingleTapUp(MotionEvent e) {
         return false;
     }
+
+    public abstract void onLongClick(Boolean isLongPress);
+
 }

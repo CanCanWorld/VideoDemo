@@ -15,6 +15,7 @@ import com.zrq.videodemo.utils.Constants.PAGE_PLAYER
 import com.zrq.videodemo.utils.OtherUtils
 import com.zrq.videodemo.view.MyPrepareView
 import com.zrq.videodemo.view.MyStandardVideoController
+import com.zrq.videodemo.view.MyVodControlView
 import xyz.doikki.videocontroller.component.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,15 +56,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 titleView.setTitle("${it.title}-${it.chapterList[it.pos].title}")
             }
             controller.addControlComponent(completeView, errorView, prepareView, titleView)
-            controller.addControlComponent(VodControlView(requireContext()))
+            controller.addControlComponent(MyVodControlView(requireContext()))
             controller.addControlComponent(GestureView(requireContext()))
             controller.setCanChangePosition(true)
-
-            videoView.setOnLongClickListener {
-                Log.d(TAG, "onLongClick")
-                videoView.speed = 1.5f
-                true
-            }
 
             videoView.setVideoController(controller)
             videoView.start()

@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.AttrRes;
@@ -24,7 +24,6 @@ import xyz.doikki.videocontroller.component.LiveControlView;
 import xyz.doikki.videocontroller.component.PrepareView;
 import xyz.doikki.videocontroller.component.TitleView;
 import xyz.doikki.videocontroller.component.VodControlView;
-import xyz.doikki.videoplayer.controller.GestureVideoController;
 import xyz.doikki.videoplayer.player.VideoView;
 import xyz.doikki.videoplayer.util.PlayerUtils;
 
@@ -40,6 +39,8 @@ public class MyStandardVideoController extends MyGestureVideoController implemen
     protected ImageView mLockButton;
 
     protected ImageView mLoading;
+
+    protected TextView mTvSpeed;
 
     private boolean isBuffering;
 
@@ -66,6 +67,7 @@ public class MyStandardVideoController extends MyGestureVideoController implemen
         mLockButton = findViewById(xyz.doikki.videocontroller.R.id.lock);
         mLockButton.setOnClickListener(this);
         mLoading = findViewById(R.id.loading);
+        mTvSpeed = findViewById(R.id.tvSpeed);
 
         Glide.with(this)
                 .asGif()
@@ -75,6 +77,7 @@ public class MyStandardVideoController extends MyGestureVideoController implemen
 
     /**
      * 快速添加各个组件
+     *
      * @param title  标题
      * @param isLive 是否为直播
      */
@@ -168,6 +171,11 @@ public class MyStandardVideoController extends MyGestureVideoController implemen
             }
         }
 
+    }
+
+    @Override
+    public void onLongClick(Boolean isLongPress) {
+        mTvSpeed.setVisibility(isLongPress ? VISIBLE : GONE);
     }
 
     @Override

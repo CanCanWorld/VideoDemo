@@ -30,4 +30,13 @@
     <string name="green">早苗绿</string>
     <string name="purple">基佬紫</string>
     <string name="blue">宝石蓝</string>
+    <string name="split">/</string>
+    <string name="speed">倍速</string>
+    <string name="_0_5x">0.5X</string>
+    <string name="_0_75x">0.75X</string>
+    <string name="_1x">1X</string>
+    <string name="_1_25x">1.25X</string>
+    <string name="_1_75x">1.75X</string>
+    <string name="_2x">2X</string>
+    <string name="_1_5x">1.5X</string>
 </resources>
