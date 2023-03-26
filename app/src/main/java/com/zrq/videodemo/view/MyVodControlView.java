@@ -41,14 +41,14 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
     private static final String TAG = "MyVodControlView";
     protected ControlWrapper mControlWrapper;
 
-    private final TextView mTotalTime;
-    private final TextView mCurrTime;
-    private final ImageView mHorizontalFullScreen;
-    private final LinearLayout mBottomContainer;
-    private final SeekBar mVideoProgress;
-    private final ProgressBar mBottomProgress;
-    private final ImageView mPlayButton;
-    private final TextView mTv5, mTv75, mTv1, mTv125, mTv15, mTv175, mTv2;
+    private TextView mTotalTime;
+    private TextView mCurrTime;
+    private ImageView mHorizontalFullScreen;
+    private LinearLayout mBottomContainer;
+    private SeekBar mVideoProgress;
+    private ProgressBar mBottomProgress;
+    private ImageView mPlayButton;
+    private TextView mTv5, mTv75, mTv1, mTv125, mTv15, mTv175, mTv2;
     private Activity mActivity = PlayerUtils.scanForActivity(getContext());
 
     private boolean mIsDragging;
@@ -63,17 +63,16 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
     }
 
     public MyVodControlView(@NonNull Context context) {
-        super(context);
+        this(context, null);
     }
 
     public MyVodControlView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public MyVodControlView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        int windowHeight = OtherUtils.INSTANCE.getWindowHeight(mActivity);
-        mItemHeight = (windowHeight - dp2px(context, 50f)) / 7;
+        init(context);
     }
 
 
@@ -81,7 +80,10 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
 
     private TextView mTvSpeed;
 
-    {
+    private void init(Context context) {
+        int windowWidth = OtherUtils.INSTANCE.getWindowWidth(mActivity);
+        mItemHeight = (windowWidth - dp2px(context, 50f)) / 7;
+        Log.d(TAG, "mItemHeight: " + mItemHeight);
         setVisibility(GONE);
         LayoutInflater.from(getContext()).inflate(getLayoutId(), this, true);
         mHorizontalFullScreen = findViewById(R.id.horizontalFullscreen);
@@ -96,6 +98,7 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
         mBottomProgress = findViewById(R.id.bottom_progress);
         mLlSpeed = findViewById(R.id.llSpeed);
         mTvSpeed = findViewById(R.id.tvSpeed);
+        mTvSpeed.setOnClickListener(this);
         mTv5 = findViewById(R.id.tv5);
         mTv75 = findViewById(R.id.tv75);
         mTv1 = findViewById(R.id.tv1);
@@ -110,6 +113,14 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
         mTv15.setOnClickListener(this);
         mTv175.setOnClickListener(this);
         mTv2.setOnClickListener(this);
+        Log.d(TAG, "instance initializer: " + mItemHeight);
+        mTv5.setHeight(mItemHeight);
+        mTv75.setHeight(mItemHeight);
+        mTv1.setHeight(mItemHeight);
+        mTv125.setHeight(mItemHeight);
+        mTv15.setHeight(mItemHeight);
+        mTv175.setHeight(mItemHeight);
+        mTv2.setHeight(mItemHeight);
 
         //5.1以下系统SeekBar高度需要设置成WRAP_CONTENT
 
@@ -280,7 +291,7 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
         onVisibilityChanged(!isLocked, null);
     }
 
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -295,24 +306,38 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
                 break;
             case R.id.tv5:
                 mControlWrapper.setSpeed(0.5f);
+                mLlSpeed.setVisibility(GONE);
+                mTvSpeed.setText("0.5X");
                 break;
             case R.id.tv75:
                 mControlWrapper.setSpeed(0.75f);
+                mLlSpeed.setVisibility(GONE);
+                mTvSpeed.setText("0.75X");
                 break;
             case R.id.tv1:
                 mControlWrapper.setSpeed(1f);
+                mLlSpeed.setVisibility(GONE);
+                mTvSpeed.setText("倍速");
                 break;
             case R.id.tv125:
                 mControlWrapper.setSpeed(1.25f);
+                mLlSpeed.setVisibility(GONE);
+                mTvSpeed.setText("1.25X");
                 break;
             case R.id.tv15:
                 mControlWrapper.setSpeed(1.5f);
+                mLlSpeed.setVisibility(GONE);
+                mTvSpeed.setText("1.5X");
                 break;
             case R.id.tv175:
                 mControlWrapper.setSpeed(1.75f);
+                mLlSpeed.setVisibility(GONE);
+                mTvSpeed.setText("1.75X");
                 break;
             case R.id.tv2:
                 mControlWrapper.setSpeed(2f);
+                mLlSpeed.setVisibility(GONE);
+                mTvSpeed.setText("2X");
                 break;
         }
     }

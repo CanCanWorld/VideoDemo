@@ -11,6 +11,7 @@ import com.zrq.videodemo.utils.Constants.PAGE_SETTING
 import com.zrq.videodemo.utils.OtherUtils
 import com.zrq.videodemo.view.EnsureDialog
 import com.zrq.videodemo.view.HistoryDialog
+import com.zrq.videodemo.view.SpeedDialog
 import com.zrq.videodemo.view.ThemeDialog
 
 class SettingFragment : BaseFragment<FragmentSettingBinding>() {
@@ -21,6 +22,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     private var historyDialog: HistoryDialog? = null
     private var themeDialog: ThemeDialog? = null
     private var ensureDialog: EnsureDialog? = null
+    private var speedDialog: SpeedDialog? = null
     private var list = mutableListOf<String>()
 
     override fun initData() {
@@ -65,6 +67,13 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                     }
                 }
                 themeDialog!!.show()
+            }
+            llSpeed.setOnClickListener {
+                if (speedDialog == null) {
+                    speedDialog = SpeedDialog(requireContext(), requireActivity())
+                }
+                speedDialog!!.show()
+
             }
         }
     }

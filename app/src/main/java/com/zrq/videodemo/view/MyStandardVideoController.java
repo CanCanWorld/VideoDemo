@@ -1,5 +1,6 @@
 package com.zrq.videodemo.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.util.AttributeSet;
@@ -15,7 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.tencent.mmkv.MMKV;
 import com.zrq.videodemo.R;
+import com.zrq.videodemo.utils.Constants;
 
 import xyz.doikki.videocontroller.component.CompleteView;
 import xyz.doikki.videocontroller.component.ErrorView;
@@ -43,6 +46,7 @@ public class MyStandardVideoController extends MyGestureVideoController implemen
     protected TextView mTvSpeed;
 
     private boolean isBuffering;
+    private MMKV mMMKV;
 
     public MyStandardVideoController(@NonNull Context context) {
         this(context, null);
@@ -61,13 +65,17 @@ public class MyStandardVideoController extends MyGestureVideoController implemen
         return R.layout.my_dkplayer_layout_standard_controller;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initView() {
         super.initView();
+        mMMKV = MMKV.defaultMMKV();
         mLockButton = findViewById(xyz.doikki.videocontroller.R.id.lock);
         mLockButton.setOnClickListener(this);
         mLoading = findViewById(R.id.loading);
         mTvSpeed = findViewById(R.id.tvSpeed);
+        float speed = mMMKV.getFloat(Constants.SPEED, 1.5f);
+        mTvSpeed.setText("倍速播放中 " + speed + "X");
 
         Glide.with(this)
                 .asGif()

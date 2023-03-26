@@ -36,6 +36,7 @@ object Constants {
     const val DOWN_WAIT = 5
 
     const val THEME_TYPE = "theme_type"
+    const val SPEED = "speed"
     const val THEME_RED = "red"
     const val THEME_PINK = "pink"
     const val THEME_PURPLE = "purple"

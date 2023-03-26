@@ -14,6 +14,9 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.tencent.mmkv.MMKV;
+import com.zrq.videodemo.utils.Constants;
+
 import java.util.Map;
 
 import xyz.doikki.videoplayer.controller.BaseVideoController;
@@ -54,6 +57,7 @@ public abstract class MyGestureVideoController extends BaseVideoController imple
 
     private boolean mIsDoubleTapTogglePlayEnabled = true;
     private Boolean mIsLongPress = false;
+    private MMKV mMMKV;
 
 
     public MyGestureVideoController(@NonNull Context context) {
@@ -71,6 +75,7 @@ public abstract class MyGestureVideoController extends BaseVideoController imple
     @Override
     protected void initView() {
         super.initView();
+        mMMKV = MMKV.defaultMMKV();
         mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         mGestureDetector = new GestureDetector(getContext(), this);
         setOnTouchListener(this);
@@ -331,7 +336,8 @@ public abstract class MyGestureVideoController extends BaseVideoController imple
     public void onLongPress(MotionEvent e) {
         onLongClick(true);
         mIsLongPress = true;
-        mControlWrapper.setSpeed(1.5f);
+        float speed = mMMKV.getFloat(Constants.SPEED, 1.5f);
+        mControlWrapper.setSpeed(speed);
     }
 
     @Override

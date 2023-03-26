@@ -104,6 +104,35 @@
                 android:src="@drawable/ic_gengduo"
                 app:tint="@color/grey" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="@drawable/pressed_background_main_color"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/bofangshu" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="1"
+                android:text="长按播放速度"
+                android:textColor="@color/grey"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_gengduo"
+                app:tint="@color/grey" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llTheme"
