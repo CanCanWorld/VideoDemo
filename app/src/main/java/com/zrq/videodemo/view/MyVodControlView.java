@@ -294,51 +294,41 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
     @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.horizontalFullscreen:
-                horizontalFullScreen();
-                break;
-            case R.id.iv_play:
-                mControlWrapper.togglePlay();
-                break;
-            case R.id.tvSpeed:
-                mLlSpeed.setVisibility(mLlSpeed.getVisibility() == VISIBLE ? GONE : VISIBLE);
-                break;
-            case R.id.tv5:
-                mControlWrapper.setSpeed(0.5f);
-                mLlSpeed.setVisibility(GONE);
-                mTvSpeed.setText("0.5X");
-                break;
-            case R.id.tv75:
-                mControlWrapper.setSpeed(0.75f);
-                mLlSpeed.setVisibility(GONE);
-                mTvSpeed.setText("0.75X");
-                break;
-            case R.id.tv1:
-                mControlWrapper.setSpeed(1f);
-                mLlSpeed.setVisibility(GONE);
-                mTvSpeed.setText("倍速");
-                break;
-            case R.id.tv125:
-                mControlWrapper.setSpeed(1.25f);
-                mLlSpeed.setVisibility(GONE);
-                mTvSpeed.setText("1.25X");
-                break;
-            case R.id.tv15:
-                mControlWrapper.setSpeed(1.5f);
-                mLlSpeed.setVisibility(GONE);
-                mTvSpeed.setText("1.5X");
-                break;
-            case R.id.tv175:
-                mControlWrapper.setSpeed(1.75f);
-                mLlSpeed.setVisibility(GONE);
-                mTvSpeed.setText("1.75X");
-                break;
-            case R.id.tv2:
-                mControlWrapper.setSpeed(2f);
-                mLlSpeed.setVisibility(GONE);
-                mTvSpeed.setText("2X");
-                break;
+        int id = v.getId();
+        if (id == R.id.horizontalFullscreen) {
+            horizontalFullScreen();
+        } else if (id == R.id.iv_play) {
+            mControlWrapper.togglePlay();
+        } else if (id == R.id.tvSpeed) {
+            mLlSpeed.setVisibility(mLlSpeed.getVisibility() == VISIBLE ? GONE : VISIBLE);
+        } else if (id == R.id.tv5) {
+            mControlWrapper.setSpeed(0.5f);
+            mLlSpeed.setVisibility(GONE);
+            mTvSpeed.setText("0.5X");
+        } else if (id == R.id.tv75) {
+            mControlWrapper.setSpeed(0.75f);
+            mLlSpeed.setVisibility(GONE);
+            mTvSpeed.setText("0.75X");
+        } else if (id == R.id.tv1) {
+            mControlWrapper.setSpeed(1f);
+            mLlSpeed.setVisibility(GONE);
+            mTvSpeed.setText("倍速");
+        } else if (id == R.id.tv125) {
+            mControlWrapper.setSpeed(1.25f);
+            mLlSpeed.setVisibility(GONE);
+            mTvSpeed.setText("1.25X");
+        } else if (id == R.id.tv15) {
+            mControlWrapper.setSpeed(1.5f);
+            mLlSpeed.setVisibility(GONE);
+            mTvSpeed.setText("1.5X");
+        } else if (id == R.id.tv175) {
+            mControlWrapper.setSpeed(1.75f);
+            mLlSpeed.setVisibility(GONE);
+            mTvSpeed.setText("1.75X");
+        } else if (id == R.id.tv2) {
+            mControlWrapper.setSpeed(2f);
+            mLlSpeed.setVisibility(GONE);
+            mTvSpeed.setText("2X");
         }
     }
 

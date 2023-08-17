@@ -211,7 +211,7 @@ class DownloadingFragment : BaseFragment<FragmentDownloadingBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        DownloadUtil.addListener(downloadListener)
+        DownloadUtil.removeListener(downloadListener)
     }
 
     override fun setNowPage(): String = PAGE_DOWNLOADING

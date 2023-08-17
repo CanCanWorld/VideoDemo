@@ -13,7 +13,7 @@ object DbController {
 
     fun initDb(ctx: Context): MyDatabase {
         context = WeakReference(ctx)
-        return Room.databaseBuilder(ctx.applicationContext, MyDatabase::class.java, "VideoDB")
+        return Room.databaseBuilder(ctx, MyDatabase::class.java, "VideoDB")
             //允许在主线程上操作数据库
             .allowMainThreadQueries()
             //数据库创建和打开事件会回调到这里，可以再次操作数据库
